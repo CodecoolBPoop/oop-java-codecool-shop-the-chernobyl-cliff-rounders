@@ -28,8 +28,14 @@ public class ShoppingCartController extends HttpServlet {
 
 
         double total = 0;
+
         for (Product product : shoppingCart.getAll()) {
             total+=product.getDefaultPrice();
+        }
+
+        String id = req.getParameter("id");
+        if (id != null) {
+            int quantity = shoppingCart.getActualItemQuantity(Integer.parseInt(req.getParameter("id")));
         }
 
 
@@ -43,6 +49,7 @@ public class ShoppingCartController extends HttpServlet {
         context.setVariable("shoppingCartItems", shoppingCart.getAll());
 
         context.setVariable("total", total);
+
 
         if (req.getParameterNames().hasMoreElements()) {
             if (req.getParameter("method").equals("remove")) {
