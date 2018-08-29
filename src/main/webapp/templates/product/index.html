@@ -25,6 +25,9 @@
             crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+
+    <script src="static/javascript/productCategory.js" th:attr="src='/static/javascript/productCategory.js'" defer></script>
+
 </head>
 
 <body>
@@ -35,12 +38,13 @@
 
 <div class="container">
     <div class="well well-sm">
-        <select >
-            <option th:each="eachprod,iterStat : ${allProductCategory}">
-            <strong th:text="${eachprod.name}"></strong>
-            </option>
-        </select>
-
+        <form>
+            <select id="eachProduct">
+                <option th:each="eachprod,iterStat : ${allProductCategory}">
+                    <strong th:text="${eachprod.name}"></strong>
+                </option>
+            </select>
+        </form>
     </div>
 
     <div id="products" class="row list-group">
