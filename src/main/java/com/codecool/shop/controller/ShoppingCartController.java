@@ -44,6 +44,13 @@ public class ShoppingCartController extends HttpServlet {
 
         context.setVariable("total", total);
 
+        if (req.getParameterNames().hasMoreElements()) {
+            if (req.getParameter("method").equals("remove")) {
+                shoppingCart.remove(Integer.parseInt(req.getParameter("id")));
+            }
+        }
+
         engine.process("reviewCart.html", context, resp.getWriter());
+
     }
 }

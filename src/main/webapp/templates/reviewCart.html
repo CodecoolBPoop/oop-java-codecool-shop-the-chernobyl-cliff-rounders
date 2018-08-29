@@ -61,9 +61,12 @@
                     <td class="col-sm-1 col-md-1 text-center" th:text="${prod.defaultPrice}"><strong>$4.87</strong></td>
                     <td class="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
                     <td class="col-sm-1 col-md-1">
-                        <button type="button" class="btn btn-danger">
-                            <span class="glyphicon glyphicon-remove"></span> Remove
-                        </button>
+                        <form action="/reviewCart" method="get">
+                            <input type="hidden" name="id" th:value="${prod.id}">
+                            <button type="submit" class="btn btn-danger" name="method", value="remove">
+                                <span class="glyphicon glyphicon-remove"></span>Remove
+                            </button>
+                        </form>
                     </td>
                 </tr>
             </div>
