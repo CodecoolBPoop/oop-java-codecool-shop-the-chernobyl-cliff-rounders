@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/"})
-public class ProductController extends HttpServlet {
+@WebServlet(urlPatterns = {"/reviewCart"})
+public class ShoppingCartController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,20 +26,24 @@ public class ProductController extends HttpServlet {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         ShoppingCart shoppingCart = ShoppingCart.getInstance();
 
-        String productId = req.getParameter("product");
-        if (productId != null) {
-            Product productToAdd = productDataStore.find(Integer.parseInt(productId));
-            shoppingCart.add(productToAdd);
+
+        double total = 0;
+        for (Product product : shoppingCart.getAll()) {
+            total+=product.getDefaultPrice();
         }
 
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
-        context.setVariable("numberOfItems", shoppingCart.getSize());
+        context.setVariable("numberOfItems",shoppingCart.getSize());
         context.setVariable("recipient", "World");
         context.setVariable("category", productCategoryDataStore.find(1));
         context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
-        engine.process("product/index.html", context, resp.getWriter());
+        context.setVariable("shoppingCartItems", shoppingCart.getAll());
+
+        context.setVariable("total", total);
+
+        engine.process("reviewCart.html", context, resp.getWriter());
     }
 }

@@ -27,5 +27,9 @@ public class ShoppingCart {
         return data.size();
     }
 
+    public List<Product> getAll() {
+        return data;
+    }
+
 
 }
