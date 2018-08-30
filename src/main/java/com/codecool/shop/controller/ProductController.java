@@ -2,9 +2,13 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.ProductCategoryDao;
+import com.codecool.shop.dao.ProductCategoryType;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
+import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 import org.thymeleaf.TemplateEngine;
@@ -32,12 +36,26 @@ public class ProductController extends HttpServlet {
             shoppingCart.add(productToAdd);
         }
 
+        String chosenCategory = req.getParameter("category");
+        Map params = new HashMap<>();
+
+        params.put("category", productCategoryDataStore.find(1));
+        params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
+        context.setVariable("allProductCategory", productCategoryDataStore.getAll());
 
+
+        if (chosenCategory != null) {
+            ProductCategory productCategory = productCategoryDataStore.getByName(chosenCategory);
+            params.put("products", productDataStore.getBy(productCategory));
+            context.setVariables(params);
+        } else {
+            context.setVariable("products", productDataStore.getAll());
+        }
+      
         context.setVariable("numberOfItems", shoppingCart.getSize());
-        context.setVariable("recipient", "World");
         context.setVariable("category", productCategoryDataStore.find(1));
         context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
         engine.process("product/index.html", context, resp.getWriter());
