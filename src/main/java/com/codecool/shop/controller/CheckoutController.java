@@ -2,13 +2,9 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductCategoryType;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.model.Supplier;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 import org.thymeleaf.TemplateEngine;
@@ -21,43 +17,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/"})
-public class ProductController extends HttpServlet {
+@WebServlet(urlPatterns = {"/checkout"})
+public class CheckoutController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         ShoppingCart shoppingCart = ShoppingCart.getInstance();
 
-        String productId = req.getParameter("product");
-        if (productId != null) {
-            Product productToAdd = productDataStore.find(Integer.parseInt(productId));
-            shoppingCart.add(productToAdd);
-        }
-
-        String chosenCategory = req.getParameter("category");
-        Map params = new HashMap<>();
-
-        params.put("category", productCategoryDataStore.find(1));
-        params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariable("allProductCategory", productCategoryDataStore.getAll());
 
-
-        if (chosenCategory != null) {
-            ProductCategory productCategory = productCategoryDataStore.getByName(chosenCategory);
-            params.put("products", productDataStore.getBy(productCategory));
-            context.setVariables(params);
-        } else {
-            context.setVariable("products", productDataStore.getAll());
+        if (shoppingCart.getSize() == 0 ){
+            resp.sendRedirect("/");
         }
-      
+
+        double total = 0;
+        for (Product product: shoppingCart.getAll()) {
+            total += product.getDefaultPrice();
+        }
+        context.setVariable("shoppingCartItems", shoppingCart.getAll());
         context.setVariable("numberOfItems", shoppingCart.getSize());
-        context.setVariable("category", productCategoryDataStore.find(1));
         context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
-        engine.process("product/index.html", context, resp.getWriter());
+        context.setVariable("total", total);
+        engine.process("checkout.html", context, resp.getWriter());
     }
+
 }
