@@ -40,7 +40,7 @@
     <div class="well well-sm">
         <form name="form1">
             <select name="choseProduct" id="choseProduct">
-                <option value="" selected disabled hidden>Choose here</option>
+                <option value="" selected disabled><a href="/"></a>Choose here</option>
                 <option th:each="eachprod,iterStat : ${allProductCategory}" th:value="${eachprod.name}">
                     <strong th:text="${eachprod.name}"></strong>
                 </option>
