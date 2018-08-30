@@ -38,16 +38,17 @@ public class ShoppingCartController extends HttpServlet {
             int quantity = shoppingCart.getActualItemQuantity(Integer.parseInt(req.getParameter("id")));
         }
 
+        String currency = "";
+        for (Product product: shoppingCart.getAll()) {
+            currency+=product.getDefaultCurrency();
+        }
+
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-
+        context.setVariable("currency",currency);
         context.setVariable("numberOfItems",shoppingCart.getSize());
-        context.setVariable("recipient", "World");
-        context.setVariable("category", productCategoryDataStore.find(1));
-        context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
         context.setVariable("shoppingCartItems", shoppingCart.getAll());
-
         context.setVariable("total", total);
 
 

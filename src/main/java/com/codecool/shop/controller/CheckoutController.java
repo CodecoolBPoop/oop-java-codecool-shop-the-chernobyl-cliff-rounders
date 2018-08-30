@@ -31,12 +31,18 @@ public class CheckoutController extends HttpServlet {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
-        double total = 0;
-        //TODO:finish this;
-        for (Product product: shoppingCart.)
+        if (shoppingCart.getSize() == 0 ){
+            resp.sendRedirect("/");
+        }
 
+        double total = 0;
+        for (Product product: shoppingCart.getAll()) {
+            total += product.getDefaultPrice();
+        }
+        context.setVariable("shoppingCartItems", shoppingCart.getAll());
         context.setVariable("numberOfItems", shoppingCart.getSize());
         context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
+        context.setVariable("total", total);
         engine.process("checkout.html", context, resp.getWriter());
     }
 
