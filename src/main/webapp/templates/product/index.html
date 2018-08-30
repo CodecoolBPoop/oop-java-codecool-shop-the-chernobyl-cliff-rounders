@@ -26,7 +26,7 @@
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
 
-    <script src="static/javascript/productCategory.js" th:attr="src='/static/javascript/productCategory.js'" defer></script>
+    <script src="static/javascript/productCategory.js" th:attr="src='/static/javascript/productCategory.js'" type="text/javascript" defer></script>
 
 </head>
 
@@ -38,9 +38,9 @@
 
 <div class="container">
     <div class="well well-sm">
-        <form>
-            <select id="eachProduct">
-                <option th:each="eachprod,iterStat : ${allProductCategory}">
+        <form name="form1">
+            <select name="choseProduct" id="choseProduct">
+                <option th:each="eachprod,iterStat : ${allProductCategory}" th:value="${eachprod.name}">
                     <strong th:text="${eachprod.name}"></strong>
                 </option>
             </select>
