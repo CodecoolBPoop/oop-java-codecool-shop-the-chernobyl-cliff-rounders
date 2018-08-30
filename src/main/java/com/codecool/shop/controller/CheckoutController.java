@@ -17,48 +17,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/reviewCart"})
-public class ShoppingCartController extends HttpServlet {
+@WebServlet(urlPatterns = {"/checkout"})
+public class CheckoutController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         ShoppingCart shoppingCart = ShoppingCart.getInstance();
 
 
-        double total = 0;
-
-        for (Product product : shoppingCart.getAll()) {
-            total+=product.getDefaultPrice();
-        }
-
-        String id = req.getParameter("id");
-        if (id != null) {
-            int quantity = shoppingCart.getActualItemQuantity(Integer.parseInt(req.getParameter("id")));
-        }
-
-        String currency = "";
-        for (Product product: shoppingCart.getAll()) {
-            currency+=product.getDefaultCurrency();
-        }
-
-
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariable("currency",currency);
-        context.setVariable("numberOfItems",shoppingCart.getSize());
-        context.setVariable("shoppingCartItems", shoppingCart.getAll());
-        context.setVariable("total", total);
 
-
-        if (req.getParameterNames().hasMoreElements()) {
-            if (req.getParameter("method").equals("remove")) {
-                shoppingCart.remove(Integer.parseInt(req.getParameter("id")));
-            }
+        if (shoppingCart.getSize() == 0 ){
+            resp.sendRedirect("/");
         }
 
-        engine.process("reviewCart.html", context, resp.getWriter());
-
+        double total = 0;
+        for (Product product: shoppingCart.getAll()) {
+            total += product.getDefaultPrice();
+        }
+        context.setVariable("shoppingCartItems", shoppingCart.getAll());
+        context.setVariable("numberOfItems", shoppingCart.getSize());
+        context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
+        context.setVariable("total", total);
+        engine.process("checkout.html", context, resp.getWriter());
     }
+
 }
