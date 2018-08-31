@@ -49,15 +49,21 @@ public class ShoppingCartController extends HttpServlet {
         context.setVariable("currency",currency);
         context.setVariable("numberOfItems",shoppingCart.getSize());
         context.setVariable("shoppingCartItems", shoppingCart.getAll());
-        context.setVariable("total", total);
 
 
         if (req.getParameterNames().hasMoreElements()) {
             if (req.getParameter("method").equals("remove")) {
+                for (Product product : shoppingCart.getAll()) {
+                    if (product.getId() == Integer.parseInt(id)){
+                        total -= product.getDefaultPrice();
+                        break;
+                    }
+                }
                 shoppingCart.remove(Integer.parseInt(req.getParameter("id")));
             }
         }
 
+        context.setVariable("total", total);
         engine.process("reviewCart.html", context, resp.getWriter());
 
     }
