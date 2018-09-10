@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Review Cart</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
+</head>
+
+<body>
+
+<div class="jumbotron text-center">
+    <h1>Review Shopping Cart</h1>
+</div>
+<div class="container">
+    <a href="/">
+        <button type="button" class="btn btn-outline-secondary">Homepage</button>
+    </a>
+</div></br>
+<div class="container">
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th></th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div th:each="prod,iterStat : ${shoppingCartItems}">
+                <tr>
+                    <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 class="media-heading" th:text="${prod.name}">Product name</h4>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td class="col-sm-1 col-md-1"><span>1</span>
+
+                    </td>
+
+                    <td>
+                        <button type="button" class="btn btn-default" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-menu-up"></span>
+                        </button></br>
+
+                        <button type="button" class="btn btn-default" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-menu-down"></span>
+                        </button>
+                    </td>
+
+                    <td class="col-sm-1 col-md-1 text-center" th:text="${prod.defaultPrice + ' ' + prod.getDefaultCurrency()}"><strong>$4.87</strong></td>
+                    <td class="col-sm-1 col-md-1 text-center" th:text="${prod.defaultPrice + ' ' + prod.getDefaultCurrency()}"><strong>$14.61</strong></td>
+                    <td class="col-sm-1 col-md-1">
+                        <form action="/reviewCart" method="get">
+                            <input type="hidden" name="id" th:value="${prod.id}">
+                            <button type="submit" class="btn btn-danger" name="method", value="remove">
+                                <span class="glyphicon glyphicon-remove"></span>Remove
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </div>
+
+            <tr>
+                <td><h3>Total</h3></td>
+                <td class="text-right">
+                    <h3><strong th:text="${total}">$31.53</strong>USD</h3>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="/checkout">
+                        <button type="button" class="btn btn-success">
+                            <span class="glyphicon glyphicon-play"></span> Checkout
+                        </button>
+                    </a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
+<div th:replace="footer.html :: copy"></div>
+
+</body>
+</html>

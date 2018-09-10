@@ -44,4 +44,9 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
     public List<ProductCategory> getAll() {
         return data;
     }
+
+    @Override
+    public ProductCategory getByName(String name) {
+        return data.stream().filter(t -> t.getName().toLowerCase().equals(name.toLowerCase())).findFirst().orElse(null);
+    }
 }
