@@ -14,17 +14,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public abstract class DaoTest {
-    private Dao<BaseModel> store;
+public abstract class DaoTest<T extends BaseModel> {
+    private Dao<T> store;
     private int initialSize;
-    private BaseModel testItem;
+    private T testItem;
 
     ProductDao productDataStore = ProductDaoMem.getInstance();
     ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
     SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
 
 
-    public void setStore(Dao store) {
+    public void setStore(Dao<T> store) {
         this.store = store;
     }
 
@@ -32,7 +32,7 @@ public abstract class DaoTest {
         this.initialSize = initialSize;
     }
 
-    public void setTestItem(BaseModel testItem) {
+    public void setTestItem(T testItem) {
         this.testItem = testItem;
     }
 

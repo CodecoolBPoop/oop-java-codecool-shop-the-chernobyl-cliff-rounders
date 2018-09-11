@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ProductCategoryDaoTest extends DaoTest {
+class ProductCategoryDaoTest extends DaoTest<ProductCategory> {
     ProductCategory testCategory = new ProductCategory(1, "Test category",
             "Test department", "Test description.");
 

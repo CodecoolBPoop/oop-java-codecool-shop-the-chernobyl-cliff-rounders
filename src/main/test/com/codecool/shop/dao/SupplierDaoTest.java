@@ -2,7 +2,7 @@ package com.codecool.shop.dao;
 
 import com.codecool.shop.model.Supplier;
 
-class SupplierDaoTest extends DaoTest {
+class SupplierDaoTest extends DaoTest<Supplier> {
     private Supplier testSupplier = new Supplier("Test supplier", "For testing.");
 
     SupplierDaoTest() {
