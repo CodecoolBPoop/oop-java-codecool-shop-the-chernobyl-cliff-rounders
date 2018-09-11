@@ -14,6 +14,7 @@ public class ProductDaoMem implements ProductDao {
 
     private List<Product> data = new ArrayList<>();
     private static ProductDaoMem instance = null;
+    private static int nextId;
 
     /* A private Constructor prevents any other class from instantiating.
      */
@@ -29,7 +30,7 @@ public class ProductDaoMem implements ProductDao {
 
     @Override
     public void add(Product product) {
-        product.setId(data.size() + 1);
+        product.setId(nextId++);
         data.add(product);
     }
 
@@ -56,5 +57,11 @@ public class ProductDaoMem implements ProductDao {
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
         return data.stream().filter(t -> t.getProductCategory().equals(productCategory)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void clear() {
+        data = new ArrayList<>();
+        nextId = 1;
     }
 }
