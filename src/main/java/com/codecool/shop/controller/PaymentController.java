@@ -37,6 +37,14 @@ public class PaymentController extends HttpServlet {
             currency += product.getDefaultCurrency();
             break;
         }
+        String amount = req.getParameter("amount");
+        if (amount != null) {
+            if (Integer.parseInt(amount)==total) {
+                System.out.println("Successfull payment");
+            } else {
+                System.out.println("not successfull payment");
+            }
+        }
 
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
