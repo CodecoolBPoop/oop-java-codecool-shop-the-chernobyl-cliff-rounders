@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class DataBaseConnection {
 
-    final String DATABASE = "jdbc:postgresql://localhost:5432/postgres";
-    final String DB_USER = "katonarobert";
-    final String DB_PASSWORD = "ccrsjrsj";
+    final String DATABASE = "jdbc:postgresql://localhost:5432/codecoolshop";
+    final String DB_USER = "postgres";
+    final String DB_PASSWORD = "postgres";
 
     Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
