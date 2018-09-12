@@ -32,6 +32,10 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
     }
 
     @Override
+    public void clear() {
+    }
+
+    @Override
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
         String query = "SELECT * FROM product";
@@ -66,4 +70,6 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
     public List<Product> getBy(ProductCategory productCategory) {
         return null;
     }
+
+
 }
