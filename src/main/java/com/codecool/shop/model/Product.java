@@ -59,7 +59,7 @@ public class Product extends BaseModel {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
-        this.supplier.addProduct(this);
+        //this.supplier.addProduct(this);
     }
 
 
@@ -75,7 +75,7 @@ public class Product extends BaseModel {
                 this.name,
                 this.defaultPrice,
                 this.defaultCurrency.toString(),
-                this.productCategory.getName(),
-                this.supplier.getName());
+                (productCategory == null) ? "" : this.productCategory.getName(),
+                (supplier == null) ? "" : this.supplier.getName());
     }
 }
