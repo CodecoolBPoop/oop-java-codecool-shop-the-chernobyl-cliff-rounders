@@ -34,9 +34,9 @@ public class PaymentSuccessController extends HttpServlet {
         context.setVariable("name",name);
         context.setVariable("total",total);
 
-        //TODO: clear shoppingcart...
 
         engine.process("paymentSuccess.html", context, resp.getWriter());
+        shoppingCart.clear();
     }
 
 }
