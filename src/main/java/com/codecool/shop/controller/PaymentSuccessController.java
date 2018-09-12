@@ -20,10 +20,19 @@ public class PaymentSuccessController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ShoppingCart shoppingCart = ShoppingCart.getInstance();
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-//        context.setVariable("currency",currency);
+
+        if (shoppingCart.getSize() == 0 ){
+            resp.sendRedirect("/");
+        }
+
+        String name = req.getParameter("cardname");
+        String total = req.getParameter("amount");
+        context.setVariable("name",name);
+        context.setVariable("total",total);
 
         //TODO: clear shoppingcart...
 

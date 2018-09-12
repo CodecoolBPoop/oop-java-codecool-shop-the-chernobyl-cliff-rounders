@@ -15,13 +15,13 @@
 </head>
 <body>
 <!-- Modal content -->
-<div id="myModal" class="modal-content">
+<div id="myModal" class="modal-content text-center">
     <div class="modal-header">
-        <h2>The Payment Faild!!</h2>
+        <h2 class="text-center col-25">Payment Failure!</h2>
     </div>
     <div class="modal-body">
-        <p>The amount is not enough, or wrong type.</p>
-        <p>Send the right amount.</p>
+        <p class="text-center">The amount is not enough for purchase, or wrong type was given.</p>
+        <p class="text-center">Send the right amount.</p>
     </div>
 </div>
 <div class="row">
@@ -34,7 +34,7 @@
                 <label for="cnum">Credit card number</label>
                 <input type="text" id="cnum" name="cardnumber" placeholder="1111-2222-3333-4444">
                 <label for="cname">Amount</label>
-                <input type="text" th:field="*{amount}" id="amount" name="amount" required pattern="{1,100000}" placeholder="500 USD">
+                <input type="text" id="amount" name="amount" required pattern="{1,100000}" placeholder="500 USD">
                 <label for="expmonth">Exp Month</label>
                 <input type="text" id="expmonth" name="expmonth" placeholder="September">
 
