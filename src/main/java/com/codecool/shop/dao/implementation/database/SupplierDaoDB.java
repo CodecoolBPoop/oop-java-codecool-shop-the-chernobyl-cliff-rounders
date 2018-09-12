@@ -1,10 +1,6 @@
 package com.codecool.shop.dao.implementation.database;
 
-import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.memory.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.memory.SupplierDaoMem;
-import com.codecool.shop.model.Product;
 import com.codecool.shop.model.Supplier;
 
 import java.sql.*;
@@ -25,11 +21,12 @@ public class SupplierDaoDB extends DataBaseConnection implements SupplierDao {
     @Override
     public void add(Supplier supplier) {
             try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO supplier(name, description)" +
-                            "VALUES (?,?);")) {
+                    "INSERT INTO supplier(name, description) VALUES (?,?) RETURNING id;")) {
                 statement.setString(1, supplier.getName());
                 statement.setString(2, supplier.getDescription());
-                statement.executeUpdate();
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) supplier.setId(resultSet.getInt("id"));
+                resultSet.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -43,10 +40,13 @@ public class SupplierDaoDB extends DataBaseConnection implements SupplierDao {
                      "SELECT name, description FROM supplier WHERE id=?;")) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            supplier = new Supplier(
-                    resultSet.getString("name"),
-                    resultSet.getString("description"));
-                resultSet.close();
+            if (resultSet.next()) {
+                supplier = new Supplier(
+                        resultSet.getString("name"),
+                        resultSet.getString("description"));
+                supplier.setId(id);
+            }
+            resultSet.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -68,8 +68,8 @@ public class SupplierDaoDB extends DataBaseConnection implements SupplierDao {
 
     @Override
     public void clear() {
-        String query = "DROP TABLE IF EXISTS supplier;" +
-                "CREATE TABLE supplier (id serial  NOT NULL, name varchar(255)  NOT NULL, description varchar(255)  NOT NULL,\n" +
+        String query = "DROP TABLE IF EXISTS supplier; CREATE TABLE supplier (" +
+                "id serial  NOT NULL, name varchar(255)  NOT NULL, description varchar(255)  NOT NULL," +
                 "CONSTRAINT supplier_pk PRIMARY KEY (id));";
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
@@ -91,6 +91,7 @@ public class SupplierDaoDB extends DataBaseConnection implements SupplierDao {
                 Supplier supplier = new Supplier(
                         resultSet.getString("name"),
                         resultSet.getString("description"));
+                supplier.setId(resultSet.getInt("id"));
                 suppliers.add(supplier);
             }
 

@@ -3,8 +3,6 @@ package com.codecool.shop.dao.implementation.database;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.memory.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.memory.SupplierDaoMem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -24,22 +22,24 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
         return instance;
     }
 
-    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-    private SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoDB.getInstance();
+    private SupplierDao supplierDataStore = SupplierDaoDB.getInstance();
 
     @Override
     public void add(Product product)
     {
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO product(name, default_price, currency, description, product_category_id, supplier_id)" +
-                        "VALUES (?,?,?,?,?,?);");) {
+                        "VALUES (?,?,?,?,?,?) RETURNING id;")) {
             statement.setString(1, product.getName());
             statement.setFloat(2, product.getDefaultPrice());
             statement.setObject(3, product.getDefaultCurrency(), Types.VARCHAR);
             statement.setString(4, product.getDescription());
             statement.setInt(5, product.getProductCategory().getId());
             statement.setInt(6, product.getSupplier().getId());
-            statement.executeUpdate();
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) product.setId(resultSet.getInt("id"));
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,18 +50,21 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
         Product product = null;
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "SELECT name, default_price, currency, description, product_category_id, supplier_id FROM product" +
-                             "WHERE id=?;")) {
+                     "SELECT * FROM product WHERE id=?;")) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            product = new Product(
-                    resultSet.getInt("id"),
-                    resultSet.getString("name"),
-                    resultSet.getFloat("default_price"),
-                    resultSet.getString("currency"),
-                    resultSet.getString("description"),
-                    productCategoryDataStore.find(resultSet.getInt("product_category_id")),
-                    supplierDataStore.find(resultSet.getInt("supplier_id")));
+            if (resultSet.next()) {
+                int categoryId = resultSet.getInt("product_category_id");
+                product = new Product(
+                        categoryId,
+                        resultSet.getString("name"),
+                        resultSet.getFloat("default_price"),
+                        resultSet.getString("currency"),
+                        resultSet.getString("description"),
+                        productCategoryDataStore.find(categoryId),
+                        supplierDataStore.find(resultSet.getInt("supplier_id")));
+                product.setId(resultSet.getInt("id"));
+            }
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -83,8 +86,8 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
 
     @Override
     public void clear() {
-        String query = "DROP TABLE IF EXISTS product;" +
-                "CREATE TABLE product (id serial  NOT NULL, name varchar(255)  NOT NULL, default_price numeric  NOT NULL," +
+        String query = "DROP TABLE IF EXISTS product; CREATE TABLE product (" +
+                "id serial  NOT NULL, name varchar(255)  NOT NULL, default_price numeric  NOT NULL," +
                 "currency varchar(255)  NOT NULL, description varchar(255)  NOT NULL, product_category_id int  NOT NULL," +
                 "supplier_id int  NOT NULL, CONSTRAINT product_pk PRIMARY KEY (id));";
         try (Connection connection = getConnection();
@@ -101,21 +104,8 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
         String query = "SELECT * FROM product";
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)
-        ) {
-
-            while (resultSet.next()) {
-                Product product = new Product(
-                        resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getFloat("default_price"),
-                        resultSet.getString("currency"),
-                        resultSet.getString("description"),
-                        productCategoryDataStore.find(resultSet.getInt("product_category_id")),
-                        supplierDataStore.find(resultSet.getInt("supplier_id")));
-                products.add(product);
-            }
-
+             ResultSet resultSet = statement.executeQuery(query)) {
+            addProducts(products, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -130,17 +120,7 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
         ) {
             statement.setInt(1, supplier.getId());
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Product product = new Product(
-                        resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getFloat("default_price"),
-                        resultSet.getString("currency"),
-                        resultSet.getString("description"),
-                        productCategoryDataStore.find(resultSet.getInt("product_category_id")),
-                        supplierDataStore.find(resultSet.getInt("supplier_id")));
-                products.add(product);
-            }
+            addProducts(products, resultSet);
             resultSet.close();
 
         } catch (SQLException e) {
@@ -157,17 +137,7 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
         ) {
             statement.setInt(1, productCategory.getId());
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Product product = new Product(
-                        resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getFloat("default_price"),
-                        resultSet.getString("currency"),
-                        resultSet.getString("description"),
-                        productCategoryDataStore.find(resultSet.getInt("product_category_id")),
-                        supplierDataStore.find(resultSet.getInt("supplier_id")));
-                products.add(product);
-            }
+            addProducts(products, resultSet);
             resultSet.close();
 
         } catch (SQLException e) {
@@ -176,5 +146,19 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
         return products;
     }
 
-
+    private void addProducts(List<Product> products, ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            int categoryId = resultSet.getInt("product_category_id");
+            Product product = new Product(
+                    categoryId,
+                    resultSet.getString("name"),
+                    resultSet.getFloat("default_price"),
+                    resultSet.getString("currency"),
+                    resultSet.getString("description"),
+                    productCategoryDataStore.find(categoryId),
+                    supplierDataStore.find(resultSet.getInt("supplier_id")));
+            product.setId(resultSet.getInt("id"));
+            products.add(product);
+        }
+    }
 }
