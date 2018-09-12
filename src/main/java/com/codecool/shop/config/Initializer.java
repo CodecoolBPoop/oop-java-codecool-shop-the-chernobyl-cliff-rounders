@@ -4,11 +4,9 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductCategoryType;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.database.DataBaseConnection;
+import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.database.ProductDaoDB;
-import com.codecool.shop.dao.implementation.memory.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.memory.ProductDaoMem;
-import com.codecool.shop.dao.implementation.memory.SupplierDaoMem;
+import com.codecool.shop.dao.implementation.database.SupplierDaoDB;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -22,9 +20,9 @@ public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoDB.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoDB.getInstance();
+        SupplierDao supplierDataStore = SupplierDaoDB.getInstance();
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -50,8 +48,8 @@ public class Initializer implements ServletContextListener {
         productDataStore.add(new Product(ProductCategoryType.MOBILE.getId(),"Apple Iphone", 500, "USD", "Fantastic price.The best phone ever.", mobile, amazon));
         productDataStore.add(new Product(ProductCategoryType.LAPTOP.getId(),"Apple Macbook Pro", 5000, "USD", "Very high price. Best portable laptop ever.", laptop, amazon));
 
-        ProductDaoDB productDaoDB = new ProductDaoDB();
-        productDaoDB.getAll();
+        //ProductDaoDB productDaoDB = new ProductDaoDB();
+        //productDaoDB.getAll();
 
 
     }
