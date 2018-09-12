@@ -19,7 +19,8 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
     private SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
 
     @Override
-    public void add(Product product) {
+    public void add(Product product)
+    {
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO product(name, default_price, currency, description, product_category_id, supplier_id)" +
                         "VALUES (?,?,?,?,?,?);");) {
