@@ -15,6 +15,15 @@ import java.util.List;
 
 public class ProductDaoDB extends DataBaseConnection implements ProductDao {
 
+    private static ProductDaoDB instance = null;
+
+    private ProductDaoDB() { }
+
+    public static ProductDaoDB getInstance() {
+        if (instance == null) instance = new ProductDaoDB();
+        return instance;
+    }
+
     private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
     private SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
 
