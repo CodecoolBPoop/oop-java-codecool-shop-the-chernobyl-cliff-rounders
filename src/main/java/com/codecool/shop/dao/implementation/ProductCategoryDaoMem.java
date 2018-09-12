@@ -11,7 +11,7 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
 
     private List<ProductCategory> data = new ArrayList<>();
     private static ProductCategoryDaoMem instance = null;
-    private static int nextId;
+    private static int nextId = 1;
 
     /* A private Constructor prevents any other class from instantiating.
      */
