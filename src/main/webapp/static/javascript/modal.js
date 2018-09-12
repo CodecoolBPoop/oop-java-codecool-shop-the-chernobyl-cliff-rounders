@@ -20,7 +20,9 @@ form.addEventListener("submit", function(event) {
     return true;
 },true);
 
-span.onclick = function() {
-    modal.style.display = "none";
+modal.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 };
 
