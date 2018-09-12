@@ -54,6 +54,11 @@ public class ShoppingCart implements ProductDao {
         return data.stream().filter(t -> t.getProductCategory().equals(productCategory)).collect(Collectors.toList());
     }
 
+    @Override
+    public void clear() {
+        data = new ArrayList<>();
+    }
+
 
     public int getActualItemQuantity(int id) {
         int quantity = 0;
