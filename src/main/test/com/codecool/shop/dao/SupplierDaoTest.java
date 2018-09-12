@@ -1,11 +1,14 @@
 package com.codecool.shop.dao;
 
 import com.codecool.shop.model.Supplier;
+import org.junit.jupiter.api.BeforeEach;
 
 class SupplierDaoTest extends DaoTest<Supplier> {
-    private Supplier testSupplier = new Supplier("Test supplier", "For testing.");
 
-    SupplierDaoTest() {
+    @Override
+    @BeforeEach
+    void setUp() {
+        super.setUp();
         setStore(supplierDataStore);
         setInitialSize(2);
         setTestItem(testSupplier);
