@@ -29,6 +29,7 @@ public class PaymentSuccessController extends HttpServlet {
             resp.sendRedirect("/");
         }
 
+
         String name = req.getParameter("cardname");
         String total = req.getParameter("amount");
         context.setVariable("name",name);
@@ -38,5 +39,6 @@ public class PaymentSuccessController extends HttpServlet {
         engine.process("paymentSuccess.html", context, resp.getWriter());
         shoppingCart.clear();
     }
+
 
 }

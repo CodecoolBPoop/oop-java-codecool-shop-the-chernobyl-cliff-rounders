@@ -38,21 +38,24 @@ public class PaymentController extends HttpServlet {
             break;
         }
         String amount = req.getParameter("amount");
+        String email = req.getParameter("email");
         if (amount != null) {
             if (Integer.parseInt(amount)==total) {
                 System.out.println("Successfull payment");
+
             } else {
                 System.out.println("not successfull payment");
             }
         }
 
-
+                new EmailUtil(email).sendEmail();
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
+
+
         context.setVariable("currency",currency);
         context.setVariable("total", total);
 
         engine.process("payment.html", context, resp.getWriter());
     }
-
 }
