@@ -4,9 +4,9 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductCategoryType;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
+import com.codecool.shop.dao.implementation.database.ProductDaoDB;
+import com.codecool.shop.dao.implementation.database.SupplierDaoDB;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -20,9 +20,11 @@ public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoDB.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoDB.getInstance();
+        SupplierDao supplierDataStore = SupplierDaoDB.getInstance();
+
+        if (productDataStore.getAll().size() != 0) return;
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -46,5 +48,11 @@ public class Initializer implements ServletContextListener {
         productDataStore.add(new Product(ProductCategoryType.TABLET.getId(),"Amazon Fire HD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", tablet, amazon));
         productDataStore.add(new Product(ProductCategoryType.LAPTOP.getId(),"Apple Macbook Pro", 5000, "USD", "Very high price. Best portable laptop ever.", laptop, amazon));
         productDataStore.add(new Product(ProductCategoryType.MOBILE.getId(),"Apple Iphone", 500, "USD", "Fantastic price.The best phone ever.", mobile, amazon));
-        productDataStore.add(new Product(ProductCategoryType.LAPTOP.getId(),"Apple Macbook Pro", 5000, "USD", "Very high price. Best portable laptop ever.", laptop, amazon));    }
+        productDataStore.add(new Product(
+                ProductCategoryType.LAPTOP.getId(),"Lenovo ThinkPad X1 Extreme", 2079, "USD",
+                "Extreme power. Extreme portability. Extreme possibilities.", laptop, lenovo));
+
+
+    }
+
 }

@@ -1,8 +1,8 @@
 package com.codecool.shop.dao;
 
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
+import com.codecool.shop.dao.implementation.database.ProductDaoDB;
+import com.codecool.shop.dao.implementation.database.SupplierDaoDB;
 import com.codecool.shop.model.BaseModel;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
@@ -19,10 +19,13 @@ public abstract class DaoTest<T extends BaseModel> {
     private int initialSize;
     private T testItem;
 
-    ProductDao productDataStore = ProductDaoMem.getInstance();
-    ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-    SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+    ProductDao productDataStore = ProductDaoDB.getInstance();
+    ProductCategoryDao productCategoryDataStore = ProductCategoryDaoDB.getInstance();
+    SupplierDao supplierDataStore = SupplierDaoDB.getInstance();
 
+    Product testProduct;
+    ProductCategory testCategory;
+    Supplier testSupplier;
 
     public void setStore(Dao<T> store) {
         this.store = store;
@@ -76,6 +79,12 @@ public abstract class DaoTest<T extends BaseModel> {
         productDataStore.add(new Product(
                 ProductCategoryType.LAPTOP.getId(),"Lenovo ThinkPad X1 Extreme", 2079, "USD",
                 "Extreme power. Extreme portability. Extreme possibilities.", laptop, lenovo));
+
+        testProduct = new Product(1, "Test product", 3.5F, "USD",
+                "Test product.", laptop, amazon);
+        testCategory = new ProductCategory(1, "Test category",
+                "Test department", "Test description.");
+        testSupplier = new Supplier("Test supplier", "For testing.");
     }
 
     @AfterEach

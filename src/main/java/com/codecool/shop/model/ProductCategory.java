@@ -1,16 +1,21 @@
 package com.codecool.shop.model;
 
+import com.codecool.shop.dao.ProductCategoryType;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategory extends BaseModel {
     private String department;
     private List<Product> products;
+    private ProductCategoryType type;
 
 
     public ProductCategory(int categoryId, String name, String department, String description) {
-        super(name);
+        super(name, description);
         this.department = department;
+        type = ProductCategoryType.getPCT(categoryId);
+        setId(categoryId);
         this.products = new ArrayList<>();
     }
 
