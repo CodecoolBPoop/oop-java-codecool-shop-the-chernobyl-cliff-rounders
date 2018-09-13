@@ -39,6 +39,14 @@ public class CheckoutController extends HttpServlet {
         for (Product product: shoppingCart.getAll()) {
             total += product.getDefaultPrice();
         }
+
+        String currency = "";
+        for (Product product: shoppingCart.getAll()) {
+            currency+=product.getDefaultCurrency();
+            break;
+        }
+
+        context.setVariable("currency",currency);
         context.setVariable("shoppingCartItems", shoppingCart.getAll());
         context.setVariable("numberOfItems", shoppingCart.getSize());
         context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
