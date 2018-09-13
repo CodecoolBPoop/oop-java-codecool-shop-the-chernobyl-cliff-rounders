@@ -4,13 +4,13 @@ CREATE TABLE customer (
    email varchar(255)  NOT NULL,
    password varchar(100)  NOT NULL,
    CONSTRAINT customer_pk PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE "order" (
    id serial  NOT NULL,
    custumer_id int  NOT NULL,
    CONSTRAINT order_pk PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE purchase_item (
    id serial  NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE purchase_item (
    product_id int  NOT NULL,
    number_of_items int  NOT NULL,
    CONSTRAINT purchase_item_pk PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE product (
    id serial  NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE product_category (
    department varchar(255)  NOT NULL,
    description varchar(255)  NOT NULL,
    CONSTRAINT product_category_pk PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE supplier (
    id serial  NOT NULL,
