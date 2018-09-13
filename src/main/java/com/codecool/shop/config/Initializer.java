@@ -4,6 +4,7 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductCategoryType;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.implementation.database.DataBaseConnection;
 import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.database.ProductDaoDB;
 import com.codecool.shop.dao.implementation.database.SupplierDaoDB;
@@ -20,6 +21,9 @@ public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+
+        DataBaseConnection.setTesting(false);
+
         ProductDao productDataStore = ProductDaoDB.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoDB.getInstance();
         SupplierDao supplierDataStore = SupplierDaoDB.getInstance();
