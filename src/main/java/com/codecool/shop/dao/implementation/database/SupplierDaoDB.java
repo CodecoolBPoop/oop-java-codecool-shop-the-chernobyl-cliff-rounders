@@ -1,6 +1,10 @@
 package com.codecool.shop.dao.implementation.database;
 
+import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.implementation.memory.ProductCategoryDaoMem;
+import com.codecool.shop.dao.implementation.memory.SupplierDaoMem;
+import com.codecool.shop.model.Product;
 import com.codecool.shop.model.Supplier;
 
 import java.sql.*;
