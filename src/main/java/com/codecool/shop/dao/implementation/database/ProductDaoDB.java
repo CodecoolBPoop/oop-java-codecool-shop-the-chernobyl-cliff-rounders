@@ -86,10 +86,7 @@ public class ProductDaoDB extends DataBaseConnection implements ProductDao {
 
     @Override
     public void clear() {
-        String query = "DROP TABLE IF EXISTS product; CREATE TABLE product (" +
-                "id serial  NOT NULL, name varchar(255)  NOT NULL, default_price numeric  NOT NULL," +
-                "currency varchar(255)  NOT NULL, description varchar(255)  NOT NULL, product_category_id int  NOT NULL," +
-                "supplier_id int  NOT NULL, CONSTRAINT product_pk PRIMARY KEY (id));";
+        String query = "TRUNCATE TABLE product RESTART IDENTITY;";
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(query);

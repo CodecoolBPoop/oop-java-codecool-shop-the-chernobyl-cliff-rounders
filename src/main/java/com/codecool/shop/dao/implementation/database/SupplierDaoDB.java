@@ -1,10 +1,6 @@
 package com.codecool.shop.dao.implementation.database;
 
-import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.memory.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.memory.SupplierDaoMem;
-import com.codecool.shop.model.Product;
 import com.codecool.shop.model.Supplier;
 
 import java.sql.*;
@@ -72,9 +68,7 @@ public class SupplierDaoDB extends DataBaseConnection implements SupplierDao {
 
     @Override
     public void clear() {
-        String query = "DROP TABLE IF EXISTS supplier; CREATE TABLE supplier (" +
-                "id serial  NOT NULL, name varchar(255)  NOT NULL, description varchar(255)  NOT NULL," +
-                "CONSTRAINT supplier_pk PRIMARY KEY (id));";
+        String query = "TRUNCATE TABLE supplier RESTART IDENTITY;";
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(query);

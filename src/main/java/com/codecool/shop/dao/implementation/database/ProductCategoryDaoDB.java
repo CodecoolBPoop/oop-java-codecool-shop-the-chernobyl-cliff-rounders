@@ -95,9 +95,7 @@ public class ProductCategoryDaoDB extends DataBaseConnection implements ProductC
 
     @Override
     public void clear() {
-        String query = "DROP TABLE IF EXISTS product_category; CREATE TABLE product_category (" +
-                "id serial  NOT NULL, name varchar(255)  NOT NULL, department varchar(255)  NOT NULL," +
-                "description varchar(255)  NOT NULL, CONSTRAINT product_category_pk PRIMARY KEY (id));";
+        String query = "TRUNCATE TABLE product_category RESTART IDENTITY;";
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(query);
