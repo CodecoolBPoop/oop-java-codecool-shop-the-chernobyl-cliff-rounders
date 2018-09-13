@@ -1,12 +1,8 @@
 package com.codecool.shop.dao;
 
-import com.codecool.shop.dao.implementation.database.DataBaseConnection;
 import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.database.ProductDaoDB;
 import com.codecool.shop.dao.implementation.database.SupplierDaoDB;
-import com.codecool.shop.dao.implementation.memory.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.memory.ProductDaoMem;
-import com.codecool.shop.dao.implementation.memory.SupplierDaoMem;
 import com.codecool.shop.model.BaseModel;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
@@ -23,39 +19,28 @@ public abstract class DaoTest<T extends BaseModel> {
     private int initialSize;
     private T testItem;
 
-    ProductDao productDataStore;
-    ProductCategoryDao productCategoryDataStore;
-    SupplierDao supplierDataStore;
+    ProductDao productDataStore = ProductDaoDB.getInstance();
+    ProductCategoryDao productCategoryDataStore = ProductCategoryDaoDB.getInstance();
+    SupplierDao supplierDataStore = SupplierDaoDB.getInstance();
 
     Product testProduct;
     ProductCategory testCategory;
     Supplier testSupplier;
 
-    void setStore(Dao<T> store) {
+    public void setStore(Dao<T> store) {
         this.store = store;
     }
 
-    void setInitialSize(int initialSize) {
+    public void setInitialSize(int initialSize) {
         this.initialSize = initialSize;
     }
 
-    void setTestItem(T testItem) {
+    public void setTestItem(T testItem) {
         this.testItem = testItem;
     }
 
     @BeforeEach
     void setUp() {
-        DataBaseConnection.setTesting(true);
-
-        if (System.getenv("mem-test") != null) {
-            productDataStore = ProductDaoMem.getInstance();
-            productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-            supplierDataStore = SupplierDaoMem.getInstance();
-        } else {
-            productDataStore = ProductDaoDB.getInstance();
-            productCategoryDataStore = ProductCategoryDaoDB.getInstance();
-            supplierDataStore = SupplierDaoDB.getInstance();
-        }
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
