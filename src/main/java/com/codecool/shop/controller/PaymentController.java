@@ -48,7 +48,6 @@ public class PaymentController extends HttpServlet {
             }
         }
 
-                new EmailUtil(email).sendEmail();
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
