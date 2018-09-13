@@ -3,7 +3,9 @@ package com.codecool.shop.dao.implementation.database;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public abstract class DataBaseConnection {
@@ -32,7 +34,7 @@ public abstract class DataBaseConnection {
     }
 
 
-    Connection getConnection () throws SQLException {
+    Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
                 DATABASE,
                 DB_USER,

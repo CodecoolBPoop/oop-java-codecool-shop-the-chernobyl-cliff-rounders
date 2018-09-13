@@ -1,5 +1,16 @@
 package com.codecool.shop.config;
 
+import com.codecool.shop.dao.ProductCategoryDao;
+import com.codecool.shop.dao.ProductCategoryType;
+import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
+import com.codecool.shop.dao.implementation.database.ProductDaoDB;
+import com.codecool.shop.dao.implementation.database.SupplierDaoDB;
+import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -9,10 +20,11 @@ public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        /*
         ProductDao productDataStore = ProductDaoDB.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoDB.getInstance();
         SupplierDao supplierDataStore = SupplierDaoDB.getInstance();
+
+        if (productDataStore.getAll().size() != 0) return;
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -40,7 +52,6 @@ public class Initializer implements ServletContextListener {
                 ProductCategoryType.LAPTOP.getId(),"Lenovo ThinkPad X1 Extreme", 2079, "USD",
                 "Extreme power. Extreme portability. Extreme possibilities.", laptop, lenovo));
 
-*/
 
     }
 
