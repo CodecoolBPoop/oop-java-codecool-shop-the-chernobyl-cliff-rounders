@@ -1,8 +1,12 @@
 package com.codecool.shop.dao;
 
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.implementation.database.DataBaseConnection;
+import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
+import com.codecool.shop.dao.implementation.database.ProductDaoDB;
+import com.codecool.shop.dao.implementation.database.SupplierDaoDB;
+import com.codecool.shop.dao.implementation.memory.ProductCategoryDaoMem;
+import com.codecool.shop.dao.implementation.memory.ProductDaoMem;
+import com.codecool.shop.dao.implementation.memory.SupplierDaoMem;
 import com.codecool.shop.model.BaseModel;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
@@ -19,25 +23,39 @@ public abstract class DaoTest<T extends BaseModel> {
     private int initialSize;
     private T testItem;
 
-    ProductDao productDataStore = ProductDaoMem.getInstance();
-    ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-    SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+    ProductDao productDataStore;
+    ProductCategoryDao productCategoryDataStore;
+    SupplierDao supplierDataStore;
 
+    Product testProduct;
+    ProductCategory testCategory;
+    Supplier testSupplier;
 
-    public void setStore(Dao<T> store) {
+    void setStore(Dao<T> store) {
         this.store = store;
     }
 
-    public void setInitialSize(int initialSize) {
+    void setInitialSize(int initialSize) {
         this.initialSize = initialSize;
     }
 
-    public void setTestItem(T testItem) {
+    void setTestItem(T testItem) {
         this.testItem = testItem;
     }
 
     @BeforeEach
     void setUp() {
+        DataBaseConnection.setTesting(true);
+
+        if (System.getenv("mem-test") != null) {
+            productDataStore = ProductDaoMem.getInstance();
+            productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+            supplierDataStore = SupplierDaoMem.getInstance();
+        } else {
+            productDataStore = ProductDaoDB.getInstance();
+            productCategoryDataStore = ProductCategoryDaoDB.getInstance();
+            supplierDataStore = SupplierDaoDB.getInstance();
+        }
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -76,6 +94,12 @@ public abstract class DaoTest<T extends BaseModel> {
         productDataStore.add(new Product(
                 ProductCategoryType.LAPTOP.getId(),"Lenovo ThinkPad X1 Extreme", 2079, "USD",
                 "Extreme power. Extreme portability. Extreme possibilities.", laptop, lenovo));
+
+        testProduct = new Product(1, "Test product", 3.5F, "USD",
+                "Test product.", laptop, amazon);
+        testCategory = new ProductCategory(1, "Test category",
+                "Test department", "Test description.");
+        testSupplier = new Supplier("Test supplier", "For testing.");
     }
 
     @AfterEach

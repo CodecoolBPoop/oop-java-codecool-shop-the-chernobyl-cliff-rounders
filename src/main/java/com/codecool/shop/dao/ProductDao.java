@@ -11,4 +11,5 @@ public interface ProductDao extends Dao<Product> {
     List<Product> getBy(Supplier supplier);
     List<Product> getBy(ProductCategory productCategory);
 
+
 }
