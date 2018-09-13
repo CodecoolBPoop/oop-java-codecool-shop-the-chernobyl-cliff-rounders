@@ -3,10 +3,10 @@ package com.codecool.shop.controller;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.implementation.memory.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.memory.ProductDaoMem;
-import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
+import com.codecool.shop.dao.implementation.database.ProductDaoDB;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.ShoppingCart;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -17,16 +17,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(urlPatterns = {"/"})
 public class ProductController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoDB.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoDB.getInstance();
         ShoppingCart shoppingCart = ShoppingCart.getInstance();
 
         String productId = req.getParameter("product");
