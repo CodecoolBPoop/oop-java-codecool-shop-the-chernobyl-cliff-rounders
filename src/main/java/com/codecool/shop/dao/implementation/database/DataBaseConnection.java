@@ -13,6 +13,12 @@ public abstract class DataBaseConnection {
     private final String DATABASE;
     private final String DB_USER;
     private final String DB_PASSWORD;
+    private static boolean testing = false;
+
+    public static void setTesting(boolean testing) {
+        DataBaseConnection.testing = testing;
+    }
+
 
     //jdbc:postgresql://localhost:5432/codecoolshop
 
@@ -28,7 +34,7 @@ public abstract class DataBaseConnection {
             ex.printStackTrace();
         }
 
-        DATABASE = "jdbc:postgresql://" + prop.getProperty("url") + "/" + prop.getProperty("database");
+        DATABASE = "jdbc:postgresql://" + prop.getProperty("url") + "/" + prop.getProperty(testing ? "testdb" : "database");
         DB_USER = prop.getProperty("user");
         DB_PASSWORD = prop.getProperty("password");
     }
@@ -41,4 +47,6 @@ public abstract class DataBaseConnection {
                 DB_PASSWORD);
 
     }
+
+
 }

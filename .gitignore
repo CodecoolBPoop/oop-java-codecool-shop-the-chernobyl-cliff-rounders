@@ -4,7 +4,8 @@
 **/.DS_Store
 
 # IntelliJ
-.idea/
+.idea/*
+!/.idea/runConfigurations/
 target/
 *.iml
 
