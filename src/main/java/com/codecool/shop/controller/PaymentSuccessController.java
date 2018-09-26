@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.model.Checkout;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 import org.thymeleaf.TemplateEngine;
@@ -16,6 +17,8 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/success"})
 public class PaymentSuccessController extends HttpServlet {
+
+    Checkout checkout;
 
 
     @Override
@@ -35,7 +38,7 @@ public class PaymentSuccessController extends HttpServlet {
         context.setVariable("name",name);
         context.setVariable("total",total);
 
-        EmailUtil.sendVerificationEmail();
+        EmailUtil.sendVerificationEmail(req.getParameter("email"),name);
         engine.process("paymentSuccess.html", context, resp.getWriter());
         shoppingCart.clear();
     }

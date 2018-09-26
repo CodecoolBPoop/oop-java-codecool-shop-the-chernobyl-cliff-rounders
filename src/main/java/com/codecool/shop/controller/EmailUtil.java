@@ -81,15 +81,13 @@ public class EmailUtil{
             return props;
         }
 
-        static void sendVerificationEmail() {
+        static void sendVerificationEmail(String email, String name) {
             ShoppingCart shoppingCart = ShoppingCart.getInstance();
 
 
-            String email = "katona.robson@gmail.com";
-
             StringBuilder message = new StringBuilder();
 
-            message.append("Name: Katona Róbert").append("\n");
+            message.append("Name: ").append(name).append("\n");
             message.append("Email: ").append(email).append("\n");
             message.append("Items:");
             int total = 0;
@@ -97,6 +95,7 @@ public class EmailUtil{
                 message.append(item.getName()).append(" ");
                 total+= item.getDefaultPrice();
             }
+            message.append("\n");
             message.append("Total: ").append(total).append(" USD");
 
             sendEmail(email, message.toString());

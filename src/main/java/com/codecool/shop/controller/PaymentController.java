@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.model.Checkout;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 import org.thymeleaf.TemplateEngine;
@@ -16,6 +17,8 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/payment"})
 public class PaymentController extends HttpServlet {
+
+
 
 
     @Override
@@ -39,6 +42,8 @@ public class PaymentController extends HttpServlet {
         }
         String amount = req.getParameter("amount");
         String email = req.getParameter("email");
+
+
         if (amount != null) {
             if (Integer.parseInt(amount)==total) {
                 System.out.println("Successfull payment");
@@ -51,7 +56,7 @@ public class PaymentController extends HttpServlet {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
-
+        context.setVariable("email",email);
         context.setVariable("currency",currency);
         context.setVariable("total", total);
 
