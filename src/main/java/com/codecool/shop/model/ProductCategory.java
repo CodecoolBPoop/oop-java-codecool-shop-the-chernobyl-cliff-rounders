@@ -1,11 +1,14 @@
 package com.codecool.shop.model;
 
 import com.codecool.shop.dao.ProductCategoryType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategory extends BaseModel {
+    private static final Logger logger = LoggerFactory.getLogger(ProductCategory.class);
     private String department;
     private List<Product> products;
     private ProductCategoryType type;
