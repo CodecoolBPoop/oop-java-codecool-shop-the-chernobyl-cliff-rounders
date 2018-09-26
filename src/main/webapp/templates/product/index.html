@@ -43,15 +43,22 @@
 </div>
 
 <div class="container">
+
     <div class="well well-sm">
-        <form name="form1">
+        <form name="form1 form-inline">
             <select name="choseProduct" id="choseProduct">
                 <option value="" selected disabled><a href="/"></a>Choose here</option>
                 <option th:each="eachprod,iterStat : ${allProductCategory}" th:value="${eachprod.name}">
                     <strong th:text="${eachprod.name}"></strong>
                 </option>
             </select>
+            <ul class="list-inline pull-right">
+                <li><a href="/register" class="btn btn-info btn-sm">Register</a></li>
+                <li><a href="#" class="btn btn-info btn-sm">Log In</a></li>
+            </ul>
         </form>
+
+
     </div>
 
     <div id="products" class="row list-group">

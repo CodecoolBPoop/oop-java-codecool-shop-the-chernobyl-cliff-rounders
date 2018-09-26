@@ -24,7 +24,7 @@ public class ProductCategoryDaoDB extends DataBaseConnection implements ProductC
         ProductCategory category = null;
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "SELECT id, name, department, description FROM product_category WHERE name=?;")) {
+                     "SELECT id, name, department, description FROM product_category WHERE name ILIKE ?;")) {
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next())
