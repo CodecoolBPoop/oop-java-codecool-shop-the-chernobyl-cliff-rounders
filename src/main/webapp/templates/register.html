@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Codecool Shop</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/registration.css"/>
+
+    <script src="static/javascript/productCategory.js" th:attr="src='/static/javascript/productCategory.js'" type="text/javascript" defer></script>
+
+</head>
+
+<body>
+
+<div class="jumbotron text-center">
+    <h1>Codecool Shop</h1>
+    <div class="siteHeader_user">
+        <a href="/" class="btn btn-info btn-lg">
+            Back
+        </a>
+    </div>
+</div>
+
+<div class="container">
+    <form action="/register" method="post">
+        <div class="row">
+            <div class="col-50">
+                <h3 class="mb-3 text-center">Registration</h3>
+                <label for="uname"><i class="fa fa-user"></i>Username</label>
+                <input type="text" id="uname" name="username" placeholder="JohnDoe">
+                <label for="email"><i class="fa fa-envelope"></i>E-mail address</label>
+                <input type="text" id="email" name="email" placeholder="john@example.com">
+                <label for="pw"><i class="fa fa-address-card-o"></i>Password</label>
+                <input type="password" id="pw" name="password" placeholder="*******">
+                <label for="pw2"><i class="fa fa-address-card-o"></i>Confirm password</label>
+                <input type="password" id="pw2" name="password2" placeholder="*******">
+                <h4 class="error" th:if="${!#arrays.isEmpty(errorMessages)}" th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></h4>
+            </div>
+        </div>
+        <input type="submit" value="Register" class="btn">
+    </form>
+</div>
+
+</body>
+</html>
