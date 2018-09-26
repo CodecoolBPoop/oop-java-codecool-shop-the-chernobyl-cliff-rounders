@@ -1,7 +1,9 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.config.RegistrationForm;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.dao.implementation.database.UserDaoDb;
+import com.codecool.shop.model.User;
+import com.codecool.shop.utilities.RegistrationForm;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -46,8 +48,10 @@ public class RegisterController extends HttpServlet {
 
         Set<ConstraintViolation<RegistrationForm>> violations = validator.validate(form);
 
-        if (violations.isEmpty()) resp.sendRedirect("/");
-        else {
+        if (violations.isEmpty()) {
+            UserDaoDb.getInstance().add(new User(form.getUsername(), form.getEmail(), form.getPassword()));
+            resp.sendRedirect("/");
+        } else {
             String[] errorMessages = violations.stream().map(ConstraintViolation::getMessage).toArray(String[]::new);
             context.setVariable("errorMessages", errorMessages);
             engine.process("register.html", context, resp.getWriter());

@@ -20,8 +20,6 @@ public class ProductCategory extends BaseModel {
         type = ProductCategoryType.getPCT(categoryId);
         setId(categoryId);
         this.products = new ArrayList<>();
-        logger.info("ProductCategory has been added");
-
     }
 
     public String getDepartment() {

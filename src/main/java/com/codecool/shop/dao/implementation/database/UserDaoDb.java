@@ -71,7 +71,7 @@ public class UserDaoDb extends DataBaseConnection implements UserDao {
 
     @Override
     public void clear() {
-        String query = "TRUNCATE TABLE user RESTART IDENTITY;";
+        String query = "TRUNCATE TABLE users RESTART IDENTITY;";
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(query);

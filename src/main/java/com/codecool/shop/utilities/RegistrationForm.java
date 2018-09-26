@@ -1,4 +1,4 @@
-package com.codecool.shop.config;
+package com.codecool.shop.utilities;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
@@ -46,5 +46,9 @@ public class RegistrationForm {
 
     public void setPassword2(String password2) {
         this.password2 = password2;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
