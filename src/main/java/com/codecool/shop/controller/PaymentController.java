@@ -1,8 +1,6 @@
 package com.codecool.shop.controller;
 
-
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.model.Checkout;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 import org.thymeleaf.TemplateEngine;
@@ -17,8 +15,6 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/payment"})
 public class PaymentController extends HttpServlet {
-
-
 
 
     @Override
