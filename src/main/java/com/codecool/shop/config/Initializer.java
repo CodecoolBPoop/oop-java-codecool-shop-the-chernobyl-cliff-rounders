@@ -1,16 +1,11 @@
 package com.codecool.shop.config;
 
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductCategoryType;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.database.DataBaseConnection;
-import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
-import com.codecool.shop.dao.implementation.database.ProductDaoDB;
-import com.codecool.shop.dao.implementation.database.SupplierDaoDB;
+import com.codecool.shop.dao.*;
+import com.codecool.shop.dao.implementation.database.*;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import com.codecool.shop.model.User;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -27,8 +22,14 @@ public class Initializer implements ServletContextListener {
         ProductDao productDataStore = ProductDaoDB.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoDB.getInstance();
         SupplierDao supplierDataStore = SupplierDaoDB.getInstance();
+        UserDao userDataStore = UserDaoDb.getInstance();
+
+        // new users
+        User rob = new User("rob", "katona.robson@gmail.com", "piuzuiop");
+        userDataStore.add(rob);
 
         if (productDataStore.getAll().size() != 0) return;
+
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
