@@ -58,3 +58,6 @@
     margin: 0 0 11px;
 }
 
+.login {
+    display: none;
+}

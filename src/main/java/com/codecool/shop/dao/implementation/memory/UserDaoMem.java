@@ -49,4 +49,9 @@ public class UserDaoMem implements UserDao {
     public List<User> getAll() {
         return userData;
     }
+
+    @Override
+    public User getByName(String name) {
+        return null;
+    }
 }

@@ -1,8 +1,5 @@
 package com.codecool.shop.model;
 
-
-import com.codecool.shop.utilities.Bcrypt;
-
 public class User extends BaseModel {
 
     private String email;
@@ -11,7 +8,7 @@ public class User extends BaseModel {
     public User(String name, String email, String password) {
         super(name);
         this.email = email;
-        this.password = Bcrypt.hashPassword(password);
+        this.password = password;
     }
 
     public String getEmail() {

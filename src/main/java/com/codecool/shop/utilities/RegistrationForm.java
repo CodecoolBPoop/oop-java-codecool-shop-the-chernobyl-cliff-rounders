@@ -49,6 +49,6 @@ public class RegistrationForm {
     }
 
     public String getPassword() {
-        return password;
+        return Bcrypt.hashPassword(password);
     }
 }
