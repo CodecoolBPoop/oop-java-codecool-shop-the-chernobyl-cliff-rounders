@@ -1,6 +1,5 @@
 package com.codecool.shop.controller;
 
-
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
@@ -39,6 +38,8 @@ public class PaymentController extends HttpServlet {
         }
         String amount = req.getParameter("amount");
         String email = req.getParameter("email");
+
+
         if (amount != null) {
             if (Integer.parseInt(amount)==total) {
                 System.out.println("Successfull payment");
@@ -51,7 +52,7 @@ public class PaymentController extends HttpServlet {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
-
+        context.setVariable("email",email);
         context.setVariable("currency",currency);
         context.setVariable("total", total);
 

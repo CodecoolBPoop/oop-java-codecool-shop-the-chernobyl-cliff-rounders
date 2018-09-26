@@ -1,8 +1,6 @@
 package com.codecool.shop.controller;
 
-
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -17,7 +15,6 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/success"})
 public class PaymentSuccessController extends HttpServlet {
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ShoppingCart shoppingCart = ShoppingCart.getInstance();
@@ -29,16 +26,14 @@ public class PaymentSuccessController extends HttpServlet {
             resp.sendRedirect("/");
         }
 
-
         String name = req.getParameter("cardname");
         String total = req.getParameter("amount");
         context.setVariable("name",name);
         context.setVariable("total",total);
 
-
+        EmailUtil.sendVerificationEmail(req.getParameter("email"),name);
         engine.process("paymentSuccess.html", context, resp.getWriter());
         shoppingCart.clear();
     }
-
 
 }
