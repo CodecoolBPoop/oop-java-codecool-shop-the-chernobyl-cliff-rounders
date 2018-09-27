@@ -3,15 +3,11 @@ package com.codecool.shop.controller;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.UserDao;
 import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.database.ProductDaoDB;
-import com.codecool.shop.dao.implementation.database.UserDaoDb;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.ShoppingCart;
-import com.codecool.shop.model.User;
-import com.codecool.shop.utilities.Bcrypt;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -60,20 +56,5 @@ public class ProductController extends HttpServlet {
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         engine.process("product/index.html", context, resp.getWriter());
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserDao users = UserDaoDb.getInstance();
-
-        User user = users.getByName(req.getParameter("username"));
-
-        if (user != null) {
-            boolean verify = Bcrypt.verifyPassword(req.getParameter("password"), user.getPassword());
-            System.out.println(verify);
-        }
-
-        resp.sendRedirect("/");
-
     }
 }
