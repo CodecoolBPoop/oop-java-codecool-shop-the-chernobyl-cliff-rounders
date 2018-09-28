@@ -58,3 +58,16 @@
     margin: 0 0 11px;
 }
 
+.login {
+    display: none;
+}
+
+input {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding: 4px;
+}
+
+.inline {
+    display: inline;
+}

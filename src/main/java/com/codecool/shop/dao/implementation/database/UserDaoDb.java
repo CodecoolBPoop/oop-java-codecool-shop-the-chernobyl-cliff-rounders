@@ -103,5 +103,27 @@ public class UserDaoDb extends DataBaseConnection implements UserDao {
         }
         return users;
     }
+
+    @Override
+    public User getByName(String name) {
+        User user = null;
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "SELECT id, name, email, password FROM users WHERE name=?;")) {
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getString("name"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"));
+                user.setId(resultSet.getInt("id"));
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 }
 
