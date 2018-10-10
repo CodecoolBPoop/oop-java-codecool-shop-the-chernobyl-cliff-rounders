@@ -76,8 +76,8 @@
                         </button>
                     </td>
 
-                    <td class="col-sm-1 col-md-1 text-center" th:text="${prod.defaultPrice + ' ' + prod.defaultCurrency}"></td>
-                    <td class="col-sm-1 col-md-1 text-center" th:text="${(prod.defaultPrice * count) + ' ' + prod.defaultCurrency}"></td>
+                    <td class="col-sm-1 col-md-1 text-center price" th:text="${prod.defaultPrice + ' ' + prod.defaultCurrency}"></td>
+                    <td class="col-sm-1 col-md-1 text-center total" th:text="${(prod.defaultPrice * count) + ' ' + prod.defaultCurrency}"></td>
                     <td class="col-sm-1 col-md-1">
                         <form action="/reviewCart" method="get">
                             <input type="hidden" name="id" th:value="${prod.id}">
@@ -92,7 +92,7 @@
             <tr>
                 <td><h3>Total</h3></td>
                 <td class="text-right">
-                    <h3><strong th:text="${total}"></strong> USD</h3>
+                    <h3><strong th:text="${total}" class="grand-total"></strong> USD</h3>
                 </td>
             </tr>
 
