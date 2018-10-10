@@ -1,13 +1,15 @@
 $(function() {
     $(".more").click(() => {
-        let [ $row, $count ] = locate(this.activeElement);
+        let [ $row, $count, $id ] = locate(this.activeElement);
+        updateDatabase($id.val(), "add");
         let oldCount = +$count.text();
         $count.text(oldCount + 1);
         updatePrice($row, oldCount + 1);
     });
 
     $(".less").click(() => {
-        let [ $row, $count ] = locate(this.activeElement);
+        let [ $row, $count, $id ] = locate(this.activeElement);
+        updateDatabase($id.val(), "remove");
         let oldCount = +$count.text();
         if (oldCount === 0) return;
         $count.text(oldCount - 1);
@@ -25,6 +27,16 @@ $(function() {
     const locate = (element) => {
         let $row = $(element).closest("tr");
         let $count = $row.find(".count");
-        return [ $row, $count ];
+        let $id = $row.find(".product-id");
+        return [ $row, $count, $id ];
+    };
+
+    const updateDatabase = (productId, action) => {
+        $.ajax({
+            url: '/updateCart',
+            method: 'PUT',
+            data: JSON.stringify({action : [productId, action]}),
+            contentType: 'application/json'
+        });
     }
 });

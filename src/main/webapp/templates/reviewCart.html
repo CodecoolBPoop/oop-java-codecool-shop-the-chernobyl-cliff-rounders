@@ -80,7 +80,7 @@
                     <td class="col-sm-1 col-md-1 text-center total" th:text="${(prod.defaultPrice * count) + ' ' + prod.defaultCurrency}"></td>
                     <td class="col-sm-1 col-md-1">
                         <form action="/reviewCart" method="get">
-                            <input type="hidden" name="id" th:value="${prod.id}">
+                            <input type="hidden" name="id" th:value="${prod.id}" class="product-id">
                             <button type="submit" class="btn btn-danger" name="method" value="remove">
                                 <span class="glyphicon glyphicon-remove"></span>Remove
                             </button>

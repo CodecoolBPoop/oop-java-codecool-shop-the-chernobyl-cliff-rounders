@@ -3,6 +3,10 @@ package com.codecool.shop.controller;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -19,7 +23,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@WebServlet(urlPatterns = {"/reviewCart"})
+@WebServlet(urlPatterns = {"/reviewCart", "/updateCart"})
 public class ShoppingCartController extends HttpServlet {
 
     @Override
@@ -51,6 +55,28 @@ public class ShoppingCartController extends HttpServlet {
         context.setVariables(contextVariables);
 
         engine.process("reviewCart.html", context, resp.getWriter());
+
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        ShoppingCart shoppingCart = ShoppingCart.getInstance();
+
+        String request = req.getReader().lines().collect(Collectors.joining());
+
+        JsonObject json = (JsonObject) new JsonParser().parse(request);
+        JsonElement element = json.getAsJsonArray("action");
+
+        String[] action = new Gson().fromJson(element, String[].class);
+
+        int productId = Integer.parseInt(action[0]);
+
+        if (action[1].equals("add")) {
+            shoppingCart.add(shoppingCart.find(productId));
+        } else {
+            shoppingCart.remove(productId);
+        }
 
     }
 }
