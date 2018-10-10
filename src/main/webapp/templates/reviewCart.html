@@ -25,6 +25,8 @@
             crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
+
+    <script src="static/javascript/cart.js" th:attr="src='/static/javascript/cart.js'" type="text/javascript" defer></script>
 </head>
 
 <body>
@@ -50,7 +52,7 @@
             </tr>
             </thead>
             <tbody>
-            <div th:each="prod,iterStat : ${shoppingCartItems}">
+            <div th:each="product : ${shoppingCartItems}" th:with="prod=${product.key}, count=${product.value}">
                 <tr>
                     <td class="col-sm-8 col-md-6">
                         <div class="media">
@@ -60,26 +62,26 @@
                         </div>
                     </td>
 
-                    <td class="col-sm-1 col-md-1"><span>1</span>
+                    <td class="col-sm-1 col-md-1"><span th:text="${count}" class="count"></span>
 
                     </td>
 
                     <td>
-                        <button type="button" class="btn btn-default" aria-label="Left Align">
+                        <button type="button" class="btn btn-default more" aria-label="Left Align">
                             <span class="glyphicon glyphicon-menu-up"></span>
                         </button></br>
 
-                        <button type="button" class="btn btn-default" aria-label="Left Align">
+                        <button type="button" class="btn btn-default less" aria-label="Left Align">
                             <span class="glyphicon glyphicon-menu-down"></span>
                         </button>
                     </td>
 
-                    <td class="col-sm-1 col-md-1 text-center" th:text="${prod.defaultPrice + ' ' + prod.getDefaultCurrency()}"><strong>$4.87</strong></td>
-                    <td class="col-sm-1 col-md-1 text-center" th:text="${prod.defaultPrice + ' ' + prod.getDefaultCurrency()}"><strong>$14.61</strong></td>
+                    <td class="col-sm-1 col-md-1 text-center" th:text="${prod.defaultPrice + ' ' + prod.defaultCurrency}"></td>
+                    <td class="col-sm-1 col-md-1 text-center" th:text="${(prod.defaultPrice * count) + ' ' + prod.defaultCurrency}"></td>
                     <td class="col-sm-1 col-md-1">
                         <form action="/reviewCart" method="get">
                             <input type="hidden" name="id" th:value="${prod.id}">
-                            <button type="submit" class="btn btn-danger" name="method", value="remove">
+                            <button type="submit" class="btn btn-danger" name="method" value="remove">
                                 <span class="glyphicon glyphicon-remove"></span>Remove
                             </button>
                         </form>
@@ -90,7 +92,7 @@
             <tr>
                 <td><h3>Total</h3></td>
                 <td class="text-right">
-                    <h3><strong th:text="${total}">$31.53</strong>USD</h3>
+                    <h3><strong th:text="${total}"></strong> USD</h3>
                 </td>
             </tr>
 

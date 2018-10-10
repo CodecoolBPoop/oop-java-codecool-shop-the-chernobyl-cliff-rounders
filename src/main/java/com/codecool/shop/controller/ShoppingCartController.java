@@ -1,10 +1,6 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.implementation.memory.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.memory.ProductDaoMem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 import org.thymeleaf.TemplateEngine;
@@ -16,54 +12,44 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Currency;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/reviewCart"})
 public class ShoppingCartController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+
         ShoppingCart shoppingCart = ShoppingCart.getInstance();
-
-
-        double total = 0;
-
-        for (Product product : shoppingCart.getAll()) {
-            total+=product.getDefaultPrice();
-        }
-
-        String id = req.getParameter("id");
-        if (id != null) {
-            int quantity = shoppingCart.getActualItemQuantity(Integer.parseInt(req.getParameter("id")));
-        }
-
-        String currency = "";
-        for (Product product: shoppingCart.getAll()) {
-            currency+=product.getDefaultCurrency();
-        }
-
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariable("currency",currency);
-        context.setVariable("numberOfItems",shoppingCart.getSize());
-        context.setVariable("shoppingCartItems", shoppingCart.getAll());
 
+        List<Product> cart = shoppingCart.getAll();
 
-        if (req.getParameterNames().hasMoreElements()) {
-            if (req.getParameter("method").equals("remove")) {
-                for (Product product : shoppingCart.getAll()) {
-                    if (product.getId() == Integer.parseInt(id)){
-                        total -= product.getDefaultPrice();
-                        break;
-                    }
-                }
-                shoppingCart.remove(Integer.parseInt(req.getParameter("id")));
-            }
-        }
+        double total = cart.stream().mapToDouble(Product::getDefaultPrice).sum();
+        String currency = cart.stream().map(Product::getDefaultCurrency)
+                .findFirst()
+                .orElse(Currency.getInstance("USD"))
+                .toString();
 
-        context.setVariable("total", total);
+        Map<Product, Long> products = cart.stream()
+                                          .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        Map<String, Object> contextVariables = new HashMap<>();
+
+        contextVariables.put("currency", currency);
+        contextVariables.put("shoppingCartItems", products);
+        contextVariables.put("numberOfItems", cart.size());
+        contextVariables.put("total", total);
+
+        context.setVariables(contextVariables);
+
         engine.process("reviewCart.html", context, resp.getWriter());
 
     }
