@@ -50,4 +50,9 @@ public class SupplierDaoMem implements SupplierDao {
         data = new ArrayList<>();
         nextId = 1;
     }
+
+    @Override
+    public Supplier getByName(String name) {
+        return data.stream().filter(t -> t.getName().toLowerCase().equals(name.toLowerCase())).findFirst().orElse(null);
+    }
 }

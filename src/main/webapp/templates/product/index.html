@@ -47,15 +47,25 @@
 
     <div class="well well-sm">
         <form th:switch="${session.user}" name="form1 form-inline" action="/login" method="post">
+            <p class="inline">Select category: </p>
             <select name="choseProduct" id="choseProduct">
-                <option value="" selected disabled><a href="/"></a>Choose here</option>
-                <option th:each="eachprod,iterStat : ${allProductCategory}" th:value="${eachprod.name}">
-                    <strong th:text="${eachprod.name}"></strong>
-                </option>
+                <option value="all">All</option>
+                <optgroup label="By product">
+                    <option th:each="prodCat : ${allProductCategory}" th:with="name=${prodCat.name.toLowerCase()}"
+                            th:value="|pc-${prodCat.name}|" th:selected="${name.equals(selected)}">
+                        <strong th:text="${prodCat.name}"></strong>
+                    </option>
+                </optgroup>
+                <optgroup label="By supplier">
+                    <option th:each="supplier : ${suppliers}" th:with="name=${supplier.name.toLowerCase()}"
+                            th:value="|s-${supplier.name}|" th:selected="${name.equals(selected)}">
+                        <strong th:text="${supplier.name}"></strong>
+                    </option>
+                </optgroup>
             </select>
             <ul th:case="${null}" class="list-inline pull-right">
                 <li><a href="/register" class="btn btn-info btn-sm">Register</a></li>
-                <li><a href="#" id="login" class="btn btn-info btn-sm">Log In</a></li>
+                <li><a id="login" class="btn btn-info btn-sm">Log In</a></li>
             </ul>
             <ul th:case="*" class="list-inline pull-right">
                 <li><p th:text="|Welcome, ${session.user.getName()}!|" class="inline"></p></li>

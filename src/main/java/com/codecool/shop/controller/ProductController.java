@@ -3,11 +3,14 @@ package com.codecool.shop.controller;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.database.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.database.ProductDaoDB;
+import com.codecool.shop.dao.implementation.database.SupplierDaoDB;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.ShoppingCart;
+import com.codecool.shop.model.Supplier;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -27,6 +30,7 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ProductDao productDataStore = ProductDaoDB.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoDB.getInstance();
+        SupplierDao supplierDataStore = SupplierDaoDB.getInstance();
         ShoppingCart shoppingCart = ShoppingCart.getInstance();
 
         String productId = req.getParameter("product");
@@ -36,19 +40,26 @@ public class ProductController extends HttpServlet {
         }
 
         String chosenCategory = req.getParameter("category");
-        Map params = new HashMap<>();
-
-        params.put("category", productCategoryDataStore.find(1));
-        params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
+        Map<String, Object> params = new HashMap<>();
 
         WebContext context = new WebContext(req, resp, req.getServletContext());
         context.setVariable("allProductCategory", productCategoryDataStore.getAll());
+        context.setVariable("suppliers", supplierDataStore.getAll());
 
-        if (chosenCategory != null) {
-            ProductCategory productCategory = productCategoryDataStore.getByName(chosenCategory);
-            params.put("products", productDataStore.getBy(productCategory));
+        if (chosenCategory != null && !chosenCategory.equals("all")) {
+            if (chosenCategory.matches("pc.*")) {
+                chosenCategory = chosenCategory.split("-")[1];
+                ProductCategory productCategory = productCategoryDataStore.getByName(chosenCategory);
+                params.put("products", productDataStore.getBy(productCategory));
+            } else if (chosenCategory.matches("s.*")) {
+                chosenCategory = chosenCategory.split("-")[1];
+                Supplier supplier = supplierDataStore.getByName(chosenCategory);
+                params.put("products", productDataStore.getBy(supplier));
+            }
+            params.put("selected", chosenCategory);
             context.setVariables(params);
         } else {
+            context.setVariable("selected", "all");
             context.setVariable("products", productDataStore.getAll());
         }
 

@@ -98,5 +98,25 @@ public class SupplierDaoDB extends DataBaseConnection implements SupplierDao {
         }
         return suppliers;
     }
+
+    @Override
+    public Supplier getByName(String name) {
+        Supplier supplier = null;
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "SELECT * FROM supplier WHERE name ILIKE ?;")) {
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next())
+                supplier = new Supplier(
+                        resultSet.getString("name"),
+                        resultSet.getString("description"));
+                supplier.setId(resultSet.getInt("id"));
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return supplier;
+    }
 }
 
