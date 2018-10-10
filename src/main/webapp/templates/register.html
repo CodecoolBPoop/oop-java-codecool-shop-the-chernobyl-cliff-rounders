@@ -26,11 +26,17 @@
 
     <link rel="stylesheet" type="text/css" href="/static/css/registration.css"/>
 
+    <link rel="stylesheet" type="text/css" href="/static/css/navbar.css" />
+
+    <script src="static/javascript/login.js" th:attr="src='/static/javascript/login.js'" type="text/javascript" defer></script>
+
     <script src="static/javascript/productCategory.js" th:attr="src='/static/javascript/productCategory.js'" type="text/javascript" defer></script>
 
 </head>
 
 <body>
+
+<div th:replace="navbar.html :: copy"></div>
 
 <div class="jumbotron text-center">
     <h1>Codecool Shop</h1>
@@ -60,6 +66,8 @@
         <input type="submit" value="Register" class="btn">
     </form>
 </div>
+
+<div th:replace="footer.html :: copy"></div>
 
 </body>
 </html>
