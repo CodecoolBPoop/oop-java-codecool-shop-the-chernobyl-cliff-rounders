@@ -38,12 +38,12 @@ public class ShoppingCartController extends HttpServlet {
 
         double total = cart.stream().mapToDouble(Product::getDefaultPrice).sum();
         String currency = cart.stream().map(Product::getDefaultCurrency)
-                .findFirst()
-                .orElse(Currency.getInstance("USD"))
-                .toString();
+                                        .findFirst()
+                                        .orElse(Currency.getInstance("USD"))
+                                        .toString();
 
         Map<Product, Long> products = cart.stream()
-                                          .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
         Map<String, Object> contextVariables = new HashMap<>();
 

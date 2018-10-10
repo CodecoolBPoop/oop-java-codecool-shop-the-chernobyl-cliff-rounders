@@ -23,6 +23,7 @@ public class PaymentController extends HttpServlet {
 
         if (shoppingCart.getSize() == 0 ){
             resp.sendRedirect("/");
+            return;
         }
 
         double total = 0;
