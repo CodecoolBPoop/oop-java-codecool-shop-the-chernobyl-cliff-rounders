@@ -25,20 +25,19 @@
             crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/navbar.css" />
+
+    <script src="static/javascript/login.js" th:attr="src='/static/javascript/login.js'" type="text/javascript" defer></script>
+
+
 
     <script src="static/javascript/cart.js" th:attr="src='/static/javascript/cart.js'" type="text/javascript" defer></script>
 </head>
 
 <body>
 
-<div class="jumbotron text-center">
-    <h1>Review Shopping Cart</h1>
-</div>
-<div class="container">
-    <a href="/">
-        <button type="button" class="btn btn-outline-secondary">Homepage</button>
-    </a>
-</div></br>
+<div th:replace="navbar.html :: copy"></div>
+
 <div class="container">
     <div class="row">
         <table class="table table-hover">

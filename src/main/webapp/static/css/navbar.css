@@ -1,0 +1,50 @@
+.nav ul{margin:0;}
+
+.nav a {padding: 10px 10px; display:inline-block;}
+
+.navbar-default{
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#3B5998),to(#3B5998));
+}
+
+.nav a{
+    font-weight: 500;
+}
+
+.navbar-default .neavbar-brand {
+    color: #fff;
+}
+
+.navbar-default .navbar-collapse {
+    border-color: #e7e7e7;
+    align-items: center;
+    text-align: center;
+}
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#welcome-text {
+    font-weight: 500;
+    color: #fff;
+}
+
+ul.nav.navbar-nav{
+    margin-bottom: 5px;
+    margin-top: 5px;
+    display         : flex;
+    align-items     : center;
+}
+
+a.navbar-brand {
+    display         : flex;
+    align-items     : center;
+}
+
+.btn-info{
+    background: #23355b;
+    border: #23355b;
+}
+

@@ -25,6 +25,8 @@
             crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/navbar.css" />
+
 
     <script src="static/javascript/productCategory.js" th:attr="src='/static/javascript/productCategory.js'" type="text/javascript" defer></script>
     <script src="static/javascript/login.js" th:attr="src='/static/javascript/login.js'" type="text/javascript" defer></script>
@@ -33,20 +35,12 @@
 
 <body>
 
-<div class="jumbotron text-center">
-    <h1>Codecool Shop</h1>
-    <div class="siteHeader_user">
-        <a href="/reviewCart" class="btn btn-info btn-lg">
-            <span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart
-        <span class="siteHeader_circleTag js-cartNum" th:text="${numberOfItems}">Num of Items</span>
-        </a>
-    </div>
-</div>
+<div th:replace="navbar.html :: copy"></div>
+
 
 <div class="container">
 
     <div class="well well-sm">
-        <form th:switch="${session.user}" name="form1 form-inline" action="/login" method="post">
             <p class="inline">Select category: </p>
             <select name="choseProduct" id="choseProduct">
                 <option value="all">All</option>
@@ -63,17 +57,6 @@
                     </option>
                 </optgroup>
             </select>
-            <ul th:case="${null}" class="list-inline pull-right">
-                <li><a href="/register" class="btn btn-info btn-sm">Register</a></li>
-                <li><a id="login" class="btn btn-info btn-sm">Log In</a></li>
-            </ul>
-            <ul th:case="*" class="list-inline pull-right">
-                <li><p th:text="|Welcome, ${session.user.getName()}!|" class="inline"></p></li>
-                <li><a href="/logout" id="logout" class="btn btn-info btn-sm">Logout</a></li>
-            </ul>
-        </form>
-
-
     </div>
 
     <div id="products" class="row list-group">
@@ -98,6 +81,8 @@
     </div>
 
 </div>
+
+<div th:replace="footer.html :: copy"></div>
 
 </body>
 </html>
