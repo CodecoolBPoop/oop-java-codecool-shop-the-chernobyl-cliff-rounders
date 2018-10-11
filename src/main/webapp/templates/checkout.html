@@ -74,8 +74,7 @@
                     </div>
 
                 </div>
-                <a href="/payment">
-                    <input type="submit" value="Continue to payment" class="payment btn btn-primary btn-lg btn-block"></a>
+                    <input type="submit" value="Continue to payment" class="payment btn">
             </form>
         </div>
     </div>
@@ -88,14 +87,16 @@
           <b th:text="${numberOfItems}">Num of Items</b>
         </span>
             </h4>
-            <div th:each="prod : ${shoppingCartItems}">
-                <p><a th:text="${prod.name}">Item name</a> <span
-                        th:text="${prod.getDefaultPrice() + ' ' + prod.defaultCurrency}"
+            <div th:each="product : ${shoppingCartItems}" th:with="prod=${product.key}, count=${product.value}">
+                <p>
+                    <a th:text="${prod.name}">Item name</a>
+                    <span th:text="${'x' + count}"></span>
+                    <span th:text="${(prod.getDefaultPrice * count) + ' ' + prod.defaultCurrency}"
                         class="price">Default Price</span>
                 </p>
                 <hr>
             </div>
-            <p>Total <span th:text="${total} +' ' + ${currency}" class="price"
+            <p>Total <span th:text="|${total} ${currency}|" class="price"
                            style="color:black"><b>Total Prize of Items</b></span></p>
         </div>
     </div>

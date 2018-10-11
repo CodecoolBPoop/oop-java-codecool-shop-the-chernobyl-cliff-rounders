@@ -21,7 +21,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul th:switch="${session.user}" class="nav navbar-nav">
                     <li th:case="${null}" class="active">
-                        <form name="form1 form-inline" action="/login" method="post">
+                        <form name="form1 form-inline" class="login-form" action="/login" method="post">
                             <ul class="list-inline pull-right">
                                 <li><a href="/register" class="btn btn-info btn-sm">Register</a></li>
                                 <li><a id="login" class="btn btn-info btn-sm">Log In</a></li>
@@ -29,7 +29,7 @@
                         </form>
                     </li>
                     <li th:case="*">
-                        <form name="form1 form-inline" action="/login" method="post">
+                        <form name="form1 form-inline" class="login-form" action="/login" method="post">
                             <ul class="list-inline pull-right">
                                 <li><p id = "welcome-text" th:text="|Welcome, ${session.user.getName()}|" class="inline"></p></li>
                                 <li><a href="/logout" id="logout" class="btn btn-info btn-sm">Logout</a></li>
