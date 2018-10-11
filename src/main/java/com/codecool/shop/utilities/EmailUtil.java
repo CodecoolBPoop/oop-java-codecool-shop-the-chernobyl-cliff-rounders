@@ -1,4 +1,4 @@
-package com.codecool.shop.controller;
+package com.codecool.shop.utilities;
 
 
 import com.codecool.shop.model.Product;
@@ -80,7 +80,7 @@ public class EmailUtil{
             return props;
         }
 
-        static void sendVerificationEmail(String email, String name) {
+        public static void sendVerificationEmail(String email, String name) {
             ShoppingCart shoppingCart = ShoppingCart.getInstance();
             List<Product> cart = shoppingCart.getAll();
 
