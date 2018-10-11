@@ -2,12 +2,15 @@ package com.codecool.shop.model;
 
 
 import com.codecool.shop.dao.ProductDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ShoppingCart implements ProductDao {
+    private static final Logger logger = LoggerFactory.getLogger(ShoppingCart.class);
 
     private List<Product> data = new ArrayList<>();
     private static ShoppingCart instance = null;
@@ -24,6 +27,7 @@ public class ShoppingCart implements ProductDao {
 
     public void add(Product product) {
         data.add(product);
+        logger.info("Product added: [{}] {}", product.getId(), product.getName());
     }
 
     @Override
@@ -33,7 +37,9 @@ public class ShoppingCart implements ProductDao {
 
     @Override
     public void remove(int id) {
-        data.remove(find(id));
+        Product product = find(id);
+        data.remove(product);
+        logger.info("Product removed: [{}] {}", product.getId(), product.getName());
     }
 
     public int getSize() {

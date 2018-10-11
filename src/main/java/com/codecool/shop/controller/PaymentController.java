@@ -23,6 +23,7 @@ public class PaymentController extends HttpServlet {
 
         if (shoppingCart.getSize() == 0 ){
             resp.sendRedirect("/");
+            return;
         }
 
         double total = 0;
@@ -39,6 +40,7 @@ public class PaymentController extends HttpServlet {
         String amount = req.getParameter("amount");
         String email = req.getParameter("email");
 
+        if (email == null) email = "stefan.rakic001@gmail.com";
 
         if (amount != null) {
             if (Integer.parseInt(amount)==total) {
