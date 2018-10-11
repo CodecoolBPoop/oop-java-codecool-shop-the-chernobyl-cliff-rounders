@@ -4,15 +4,14 @@ package com.codecool.shop.controller;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class EmailUtil{
 
@@ -83,18 +82,24 @@ public class EmailUtil{
 
         static void sendVerificationEmail(String email, String name) {
             ShoppingCart shoppingCart = ShoppingCart.getInstance();
+            List<Product> cart = shoppingCart.getAll();
 
+            double total = cart.stream().mapToDouble(Product::getDefaultPrice).sum();
+
+            Map<Product, Long> products = cart.stream()
+                    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
             StringBuilder message = new StringBuilder();
 
             message.append("Name: ").append(name).append("\n");
             message.append("Email: ").append(email).append("\n");
-            message.append("Items:");
-            int total = 0;
-            for(Product item : shoppingCart.getAll()){
-                message.append(item.getName()).append(" ");
-                total+= item.getDefaultPrice();
-            }
+            message.append("Items:\n\t");
+
+            products.forEach((product, count) -> message.append(product.getName())
+                    .append("     x ")
+                    .append(count)
+                    .append("\n\t"));
+
             message.append("\n");
             message.append("Total: ").append(total).append(" USD");
 
