@@ -23,8 +23,6 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-
-
     <link rel="stylesheet" type="text/css" href="/static/css/checkout.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/modal.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/navbar.css" />
@@ -55,7 +53,7 @@
                     <h3>Payment</h3>
                     <label for="cname">Name on Card</label>
                     <input class="info" type="text" id="cname" name="cardname" placeholder="John More Doe">
-                    <label hidden for="email"><i class="fa fa-envelope"></i> Email</label>
+                    <label hidden for="email">Email</label>
                     <input class="info" hidden type="text" id="email" name="email" th:value="${email}">
                     <label for="cnum">Credit card number</label>
                     <input class="info" type="text" id="cnum" name="cardnumber" placeholder="1111-2222-3333-4444">
