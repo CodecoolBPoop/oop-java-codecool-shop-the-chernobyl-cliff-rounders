@@ -1,6 +1,8 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.implementation.database.ProductDaoDB;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ShoppingCart;
 import com.google.gson.Gson;
@@ -62,6 +64,7 @@ public class ShoppingCartController extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         ShoppingCart shoppingCart = ShoppingCart.getInstance();
+        ProductDao productDataStore = ProductDaoDB.getInstance();
 
         String request = req.getReader().lines().collect(Collectors.joining());
 
@@ -73,7 +76,7 @@ public class ShoppingCartController extends HttpServlet {
         int productId = Integer.parseInt(action[0]);
 
         if (action[1].equals("add")) {
-            shoppingCart.add(shoppingCart.find(productId));
+            shoppingCart.add(productDataStore.find(productId));
         } else {
             shoppingCart.remove(productId);
         }
