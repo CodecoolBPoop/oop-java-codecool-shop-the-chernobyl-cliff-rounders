@@ -38,28 +38,19 @@
 
 <div th:replace="navbar.html :: copy"></div>
 
-<div class="jumbotron text-center">
-    <h1>Codecool Shop</h1>
-    <div class="siteHeader_user">
-        <a href="/" class="btn btn-info btn-lg">
-            Back
-        </a>
-    </div>
-</div>
-
 <div class="container">
     <form action="/register" method="post">
         <div class="row">
             <div class="col-50">
                 <h3 class="mb-3 text-center">Registration</h3>
                 <label for="uname"><i class="fa fa-user"></i>Username</label>
-                <input type="text" id="uname" name="username" placeholder="JohnDoe">
+                <input class="info" type="text" id="uname" name="username" placeholder="JohnDoe">
                 <label for="email"><i class="fa fa-envelope"></i>E-mail address</label>
-                <input type="text" id="email" name="email" placeholder="john@example.com">
+                <input class="info" type="text" id="email" name="email" placeholder="john@example.com">
                 <label for="pw"><i class="fa fa-address-card-o"></i>Password</label>
-                <input type="password" id="pw" name="password" placeholder="*******">
+                <input class="info" type="password" id="pw" name="password" placeholder="*******">
                 <label for="pw2"><i class="fa fa-address-card-o"></i>Confirm password</label>
-                <input type="password" id="pw2" name="password2" placeholder="*******">
+                <input class="info" type="password" id="pw2" name="password2" placeholder="*******">
                 <h4 class="error" th:if="${!#arrays.isEmpty(errorMessages)}" th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></h4>
             </div>
         </div>

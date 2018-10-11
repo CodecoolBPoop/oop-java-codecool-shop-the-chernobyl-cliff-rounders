@@ -10,7 +10,7 @@
     font-weight: 500;
 }
 
-.navbar-default .navbar-brand {
+.navbar-default .neavbar-brand {
     color: #fff;
 }
 
@@ -26,6 +26,10 @@
     margin-left: auto;
 }
 
+#welcome-text {
+    font-weight: 500;
+    color: #fff;
+}
 
 ul.nav.navbar-nav{
     margin-bottom: 5px;

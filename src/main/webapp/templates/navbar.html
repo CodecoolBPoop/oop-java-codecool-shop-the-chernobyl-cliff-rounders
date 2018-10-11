@@ -31,7 +31,7 @@
                     <li th:case="*">
                         <form name="form1 form-inline" action="/login" method="post">
                             <ul class="list-inline pull-right">
-                                <li><p th:text="|Welcome, ${session.user.getName()}|" class="inline"></p></li>
+                                <li><p id = "welcome-text" th:text="|Welcome, ${session.user.getName()}|" class="inline"></p></li>
                                 <li><a href="/logout" id="logout" class="btn btn-info btn-sm">Logout</a></li>
                             </ul>
                         </form>
