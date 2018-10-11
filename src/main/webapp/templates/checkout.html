@@ -5,7 +5,7 @@
     <meta name="author" content="Codecool"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Checkout</title>
-    
+
     <!-- Latest compiled and minified Jquery -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -43,13 +43,13 @@
                         <h3>Billing Address</h3>
                         <div th:switch="${session.user}">
                             <div th:case="null">
-                                <label for="fname"><i class="fa fa-user"></i>Name</label>
+                                <label for="fname"><i class="fa fa-user"></i> Name</label>
                                 <input class="info" type="text" id="fname" name="firstname" placeholder="John M. Doe" required>
                                 <label for="email"><i class="fa fa-envelope"></i> Email</label>
                                 <input class="info" type="email" id="email" name="email" placeholder="john@example.com" required>
                             </div>
                             <div th:case="*" >
-                                <label for="fname"><i class="fa fa-user"></i>Name</label>
+                                <label for="fname"><i class="fa fa-user"></i> Name</label>
                                 <input th:value="${session.user.getName()}" class="info" type="text" id="fname" name="firstname" placeholder="John M. Doe" required>
                                 <label for="email"><i class="fa fa-envelope"></i> Email</label>
                                 <input th:value="${session.user.getEmail()}" class="info" type="email" id="email" name="email">
@@ -63,11 +63,11 @@
 
                         <div class="row">
                             <div class="col-50">
-                                <label for="state">State</label>
+                                <label for="state"><i class="fas fa-compass"></i> State</label>
                                 <input class="info" type="text" id="state" name="state" placeholder="NY">
                             </div>
                             <div class="col-50">
-                                <label for="zip">Zip</label>
+                                <label for="zip"><i class="fas fa-map-marked-alt"></i> Zip</label>
                                 <input class="info" type="text" id="zip" name="zip" placeholder="10001">
                             </div>
                         </div>
@@ -75,7 +75,7 @@
 
                 </div>
                 <a href="/payment">
-                    <input type="submit" value="Continue to payment" class="payment btn"></a>
+                    <input type="submit" value="Continue to payment" class="payment btn btn-primary btn-lg btn-block"></a>
             </form>
         </div>
     </div>
