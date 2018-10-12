@@ -24,6 +24,8 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
     <link rel="stylesheet" type="text/css" href="/static/css/registration.css"/>
 
     <link rel="stylesheet" type="text/css" href="/static/css/navbar.css" />
@@ -43,18 +45,18 @@
         <div class="row">
             <div class="col-50 reg-form">
                 <h3 class="mb-3 text-center">Registration</h3>
-                <label for="uname"><i class="fa fa-user"></i>Username</label>
+                <label for="uname"><i class="fas fa-user"></i> Username</label>
                 <input class="info" type="text" id="uname" name="username" placeholder="JohnDoe">
-                <label for="email"><i class="fa fa-envelope"></i>E-mail address</label>
+                <label for="email"><i class="fas fa-envelope"></i> E-mail address</label>
                 <input class="info" type="text" id="email" name="email" placeholder="john@example.com">
-                <label for="pw"><i class="fa fa-address-card-o"></i>Password</label>
+                <label for="pw"><i class="fas fa-key"></i> Password</label>
                 <input class="info" type="password" id="pw" name="password" placeholder="*******">
-                <label for="pw2"><i class="fa fa-address-card-o"></i>Confirm password</label>
+                <label for="pw2"><i class="fas fa-key"></i> Confirm password</label>
                 <input class="info" type="password" id="pw2" name="password2" placeholder="*******">
                 <h4 class="error" th:if="${!#arrays.isEmpty(errorMessages)}" th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></h4>
             </div>
         </div>
-        <input type="button" value="Register" class="btn register-btn">
+        <input type="button" value="Register" class="btn register-btn btn-primary btn-lg btn-block">
     </form>
 </div>
 
