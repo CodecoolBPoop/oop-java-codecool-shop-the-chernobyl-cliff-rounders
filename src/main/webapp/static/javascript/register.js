@@ -12,9 +12,10 @@ $(function() {
             contentType: 'application/json'
         }).done((_, __, response) => {
             let errors = response.getResponseHeader("errors");
-            if (errors.length === 0) window.location.href = "/";
+            if (errors === null) window.location.href = "http://0.0.0.0:8080/";
             else {
-                errors.split("\n").forEach(error => {
+                console.log(errors);
+                errors.split("\\n").forEach(error => {
                     $(".reg-form").append(`<h4 class='error'>${error}</h4>`);
                 });
             }

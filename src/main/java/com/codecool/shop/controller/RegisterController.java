@@ -66,7 +66,7 @@ public class RegisterController extends HttpServlet {
             resp.setHeader("errors", "");
         } else {
             String[] errorMessages = violations.stream().map(ConstraintViolation::getMessage).toArray(String[]::new);
-            resp.setHeader("errors", String.join("\n", errorMessages));
+            resp.setHeader("errors", String.join("\\n", errorMessages));
 
             //context.setVariable("errorMessages", errorMessages);
             //engine.process("register.html", context, resp.getWriter());

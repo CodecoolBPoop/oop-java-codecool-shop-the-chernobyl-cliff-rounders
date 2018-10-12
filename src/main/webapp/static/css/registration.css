@@ -59,6 +59,7 @@ label {
 
 .error {
     color: darkred;
+    display: block;
 }
 
 input.btn {
