@@ -29,7 +29,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/navbar.css" />
 
     <script src="static/javascript/login.js" th:attr="src='/static/javascript/login.js'" type="text/javascript" defer></script>
-
+    <script th:attr="src='/static/javascript/register.js'" type="text/javascript" defer></script>
     <script src="static/javascript/productCategory.js" th:attr="src='/static/javascript/productCategory.js'" type="text/javascript" defer></script>
 
 </head>
@@ -41,7 +41,7 @@
 <div class="container">
     <form action="/register" method="post">
         <div class="row">
-            <div class="col-50">
+            <div class="col-50 reg-form">
                 <h3 class="mb-3 text-center">Registration</h3>
                 <label for="uname"><i class="fa fa-user"></i>Username</label>
                 <input class="info" type="text" id="uname" name="username" placeholder="JohnDoe">
@@ -54,7 +54,7 @@
                 <h4 class="error" th:if="${!#arrays.isEmpty(errorMessages)}" th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></h4>
             </div>
         </div>
-        <input type="submit" value="Register" class="btn">
+        <input type="button" value="Register" class="btn register-btn">
     </form>
 </div>
 
