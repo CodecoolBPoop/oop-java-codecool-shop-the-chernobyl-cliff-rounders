@@ -2,6 +2,8 @@ $(function() {
     $(".more").click(() => {
         let [ $row, $count, $id ] = locate(this.activeElement);
         updateDatabase($id.val(), "add");
+        let $cartNum = $(".js-cartNum");
+        $cartNum.text(+$cartNum.text() + 1);
         let oldCount = +$count.text();
         $count.text(oldCount + 1);
         updatePrice($row, oldCount + 1);
@@ -12,6 +14,8 @@ $(function() {
         updateDatabase($id.val(), "remove");
         let oldCount = +$count.text();
         if (oldCount === 0) return;
+        let $cartNum = $(".js-cartNum");
+        $cartNum.text(+$cartNum.text() - 1);
         $count.text(oldCount - 1);
         updatePrice($row, oldCount - 1, true);
     });
